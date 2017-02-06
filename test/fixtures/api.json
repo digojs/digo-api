@@ -1,0 +1,58 @@
+﻿{
+    "version": 1,
+    "apis": {
+        "/test": {
+            "description": "FFF",
+            "params": {
+                "id": {
+                    "type": "AA"
+                },
+                "generic": {
+                    "type": "foo.A<number>"
+                }
+            },
+            "return": {
+                "type": "result<foo.A<AA>[]>"
+            }
+        }
+    },
+    "types": {
+        "result<T>": {
+            "fields": {
+                "data": {
+                    "description": "注1",
+                    "type": "T"
+                },
+                "message": {
+                    "description": "注2",
+                    "type": "string"
+                }
+            }
+        },
+        "foo.A<T>": {
+            "fields": {
+                "foo": {
+                    "description": "注1",
+                    "type": "T"
+                },
+                "goo": {
+                    "description": "注2",
+                    "type": "foo.A<string>"
+                }
+            }
+        },
+        "AA": {
+            "type": "enum",
+            "fields": {
+                "foo": {
+                    "description": "注1",
+                    "default": 1
+                },
+                "goo": {
+                    "description": "注2",
+                    "default": 2
+                }
+            }
+        }
+    }
+}
