@@ -15,9 +15,11 @@
     "typescript": "next"
   },
   "scripts": {
-    "build": "tsc index.ts --lib es2015"
+    "build": "tsc --target es2015 --module commonjs index.ts apiGenerator.ts"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "apiGenerator.js",
+    "data/*"
   ]
 }
