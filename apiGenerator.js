@@ -398,7 +398,7 @@ class ApiGenerator {
                     if (value.max != undefined) {
                         return `${caseType}`.repeat(Math.max(value.max - 1, 0));
                     }
-                    return `string_${caseType}`;
+                    return `${name}_${caseType}`;
                 case "boolean":
                     if (merge !== undefined) {
                         return !!merge;
@@ -577,7 +577,6 @@ class ApiGenerator {
             return new Function("$", tpl)(data);
         }
         catch (e) {
-            fs.appendFileSync("_d.json", JSON.stringify(data, undefined, 4));
             throw new Error("Error run tpl: " + tpl + ": " + e.message);
         }
     }

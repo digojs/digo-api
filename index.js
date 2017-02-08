@@ -21,7 +21,6 @@ module.exports = exports = function API(file, options, done, result) {
         file.content = files[key];
         result.add(file);
     }
-    debugger;
     done(false);
 };
 function merge(dest, src) {
