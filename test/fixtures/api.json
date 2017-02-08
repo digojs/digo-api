@@ -1,77 +1,3835 @@
 ﻿{
-    "version": 1,
-    "apis": {
-        "/test": {
-            "description": "FFF",
-            "params": {
-                "id": {
-                    "description": "参数1",
-                    "type": "foo.AA"
-                },
-                "generic": {
-                    "description": "参数2",
-                    "type": "foo.A<number>"
-                }
-            },
-            "return": {
-                "type": "foo.Result<foo.A<foo.AA>[]>"
-            }
-        },
-        "/test2": {
-            "description": "FFF",
-            "params": {
-                "id": {
-                    "description": "参数1",
-                    "type": "foo.AA"
-                },
-                "generic": {
-                    "description": "参数2",
-                    "type": "foo.A<number>"
-                }
-            },
-            "return": {
-                "type": "foo.Result<foo.A<foo.AA>[]>"
-            }
-        }
-    },
-    "types": {
-        "foo.Result<T>": {
-            "description": "返回结果",
-            "fields": {
-                "data": {
-                    "description": "注1",
-                    "type": "T"
-                },
-                "message": {
-                    "description": "注2",
-                    "type": "string"
-                }
-            }
-        },
-        "foo.A<T>": {
-            "fields": {
-                "foo": {
-                    "description": "注1",
-                    "type": "T"
-                },
-                "goo": {
-                    "description": "注2",
-                    "type": "foo.A<string>"
-                }
-            }
-        },
-        "foo.AA": {
-            "type": "enum",
-            "fields": {
-                "foo": {
-                    "description": "注1",
-                    "default": 1
-                },
-                "goo": {
-                    "description": "注2",
-                    "default": 2
-                }
-            }
-        }
-    }
+	"apis": {
+		"/car/bindDevice": {
+			"method": "POST",
+			"params": {
+				"imeis": {
+					"notNull": true,
+					"type": "java.lang.String[]"
+				},
+				"plateNumber": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]>"
+			}
+		},
+		"/car/getOwnerAndDeviceInstallInfo": {
+			"method": "GET",
+			"params": {
+				"plateNumber": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.CarOwnerDeviceInfoModel>"
+			}
+		},
+		"/car/getOwnerInfo": {
+			"method": "GET",
+			"params": {
+				"plateNumber": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel>"
+			}
+		},
+		"/car/getOwnerInfoByImei": {
+			"method": "GET",
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel>"
+			}
+		},
+		"/device/assetCompany/download": {
+			"description": "批量修改资产公司,模板下载",
+			"return": {
+				"type": "java.lang.String"
+			}
+		},
+		"/device/assetCompany/upload": {
+			"description": "批量修改资产公司,文件上传",
+			"method": "POST",
+			"params": {
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>>"
+			}
+		},
+		"/device/entry/download": {
+			"description": "设备录入,excel模板下载"
+		},
+		"/device/entry/getDetail": {
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>"
+			}
+		},
+		"/device/entry/load": {
+			"description": "设备录入,已导入文件分页查询",
+			"method": "GET",
+			"params": {
+				"hashString": {
+					"description": "文件hash",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "当前页码",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt>>"
+			}
+		},
+		"/device/entry/overview": {
+			"description": "分站各状态设备数量总览",
+			"params": {
+				"stationId": {
+					"description": "分站id",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.CountNumberParam>"
+			}
+		},
+		"/device/entry/save": {
+			"description": "设备录入,已导入文件分页查询",
+			"method": "POST",
+			"params": {
+				"assetCompany": {
+					"description": "资产公司枚举值",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				},
+				"hashString": {
+					"description": "文件hash",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"singleAddRecords": {
+					"description": "单笔新增json字符串,[{设备imei,sim,simOperator}]",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"stationId": {
+					"description": "分站id",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				},
+				"vendorPackageId": {
+					"description": "厂商资产套餐id",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/entry/updateCarIcon": {
+			"description": "根据设备id更新车辆图标",
+			"method": "POST",
+			"params": {
+				"carIcon": {
+					"description": "图标枚举值",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/device/entry/upload": {
+			"description": "设备录入,文件上传录入",
+			"method": "POST",
+			"params": {
+				"assetCompany": {
+					"description": "资产公司枚举值",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"stationId": {
+					"description": "分站id",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"vendorPackageId": {
+					"description": "厂商套餐id",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt>>"
+			}
+		},
+		"/device/recycle": {
+			"params": {
+				"record": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.operation.RecycleRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]>"
+			}
+		},
+		"/device/sim/list": {
+			"method": "GET",
+			"params": {
+				"imei": {
+					"description": "设备imei",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.operation.SimChangeRecord[]>"
+			}
+		},
+		"/device/sim/update": {
+			"method": "POST",
+			"params": {
+				"simChangeRecord": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.operation.SimChangeRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.String>"
+			}
+		},
+		"/device/status/allStatus/record": {
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord>>"
+			}
+		},
+		"/device/status/apply/breakdown": {
+			"method": "POST",
+			"params": {
+				"deviceStatusRecord": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/status/apply/dropout": {
+			"method": "POST",
+			"params": {
+				"deviceStatusRecord": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/status/apply/modify": {
+			"method": "POST",
+			"params": {
+				"deviceStatusRecord": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/status/apply/record": {
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord[]>"
+			}
+		},
+		"/device/status/apply/scrape": {
+			"method": "POST",
+			"params": {
+				"deviceStatusRecord": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/status/apply/use": {
+			"method": "POST",
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/status/modify/record": {
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord[]>"
+			}
+		},
+		"/device/stock/count": {
+			"params": {
+				"stationId": {
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.CountNumberParam>"
+			}
+		},
+		"/device/stock/detail": {
+			"params": {
+				"id": {
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>"
+			}
+		},
+		"/device/stock/downLoad": {
+			"return": {}
+		},
+		"/device/stock/downLoad/imei": {},
+		"/device/stock/getDetail": {
+			"params": {
+				"imei": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>"
+			}
+		},
+		"/device/stock/list": {
+			"params": {
+				"deviceStockExtParam": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam"
+				},
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>>"
+			}
+		},
+		"/device/stock/save": {
+			"method": "POST",
+			"params": {
+				"deviceStockInfo": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockInfo"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>"
+			}
+		},
+		"/device/stock/upLoad": {
+			"method": "POST",
+			"params": {
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>>"
+			}
+		},
+		"/device/stock/upLoad/imei": {
+			"method": "POST",
+			"params": {
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>>"
+			}
+		},
+		"/device/stock/upLoadList": {
+			"method": "GET",
+			"params": {
+				"idList": {
+					"notNull": true,
+					"type": "java.lang.Integer[]"
+				},
+				"page": {
+					"description": "当前页码",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "页面显示数",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>>"
+			}
+		},
+		"/device/stock/updateCarIcon": {
+			"description": "根据设备id更新车辆图标",
+			"method": "POST",
+			"params": {
+				"carIcon": {
+					"description": "图标枚举值",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/dingding/share": {
+			"description": "轨迹钉钉分享",
+			"method": "POST",
+			"params": {
+				"endTime": {
+					"description": "结束时间",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"imei": {
+					"description": "设备id",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"mobileNumber": {
+					"description": "分享手机号",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"startTime": {
+					"description": "开始时间",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"stayTime": {
+					"description": "停留标识",
+					"notNull": true,
+					"type": "java.lang.Integer"
+				},
+				"tracksJson": {
+					"description": "轨迹数据,json字符串",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"uName": {
+					"description": "车主姓名",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Boolean>"
+			}
+		},
+		"/dingding/shareInfo": {
+			"description": "轨迹钉钉分享查看",
+			"method": "GET",
+			"params": {
+				"shareId": {
+					"description": "分享id",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.share.DingtalkShareInfoModel>"
+			}
+		},
+		"/home": {},
+		"/jsondoc": {
+			"method": "GET",
+			"return": {
+				"type": "org.jsondoc.core.pojo.JSONDoc"
+			}
+		},
+		"/location/history": {
+			"description": "获取设备历史轨迹",
+			"method": "GET",
+			"params": {
+				"endTime": {
+					"description": "结束时间戳",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"imei": {
+					"description": "设备id",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"startTime": {
+					"description": "开始时间戳",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo[]>"
+			}
+		},
+		"/location/monitor": {
+			"description": "获取设备最新状态",
+			"method": "GET",
+			"params": {
+				"imei": {
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo>"
+			}
+		},
+		"/location/tracking": {
+			"description": "跟踪设备状态",
+			"method": "GET",
+			"params": {
+				"imei": {
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo>"
+			}
+		},
+		"/monitor/tag/add": {
+			"description": "添加标签",
+			"method": "POST",
+			"params": {
+				"areaName": {
+					"description": "区域名称,省市区逗号分割",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"detailAddress": {
+					"description": "详细地址",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"lat": {
+					"description": "纬度",
+					"notNull": false,
+					"type": "java.math.BigDecimal"
+				},
+				"lng": {
+					"description": "经度",
+					"notNull": false,
+					"type": "java.math.BigDecimal"
+				},
+				"remark": {
+					"description": "备注",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"tagName": {
+					"description": "标签名称",
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>"
+			}
+		},
+		"/monitor/tag/delete": {
+			"description": "删除标签",
+			"method": "POST",
+			"params": {
+				"id": {
+					"description": "标签id",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>"
+			}
+		},
+		"/monitor/tag/list": {
+			"description": "获取所有标签",
+			"method": "GET",
+			"params": {
+				"createTime": {
+					"description": "发起时间",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"creator": {
+					"description": "发起人",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "页码",
+					"notNull": true,
+					"type": "int"
+				},
+				"rows": {
+					"description": "每页显示行数",
+					"notNull": true,
+					"type": "int"
+				},
+				"tagStatus": {
+					"description": "标签确认状态",
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>>"
+			}
+		},
+		"/monitor/tag/update": {
+			"description": "修改标签确认状态",
+			"method": "POST",
+			"params": {
+				"id": {
+					"description": "标签id",
+					"notNull": false,
+					"type": "java.lang.Integer"
+				},
+				"tagStatus": {
+					"description": "标签状态,0为未确认,1为已确认",
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/param/getBreakdownReason": {
+			"method": "GET",
+			"params": {
+				"breakdownType": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]>"
+			}
+		},
+		"/param/list": {
+			"method": "POST",
+			"params": {
+				"page": {
+					"notNull": true,
+					"type": "int"
+				},
+				"queryParam": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.param.SysParam"
+				},
+				"rows": {
+					"notNull": true,
+					"type": "int"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.SysParam>>"
+			}
+		},
+		"/param/load": {
+			"method": "GET",
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]{}>"
+			}
+		},
+		"/param/vendorpackage/add": {
+			"method": "POST",
+			"params": {
+				"record": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/param/vendorpackage/delete": {
+			"method": "POST",
+			"params": {
+				"id": {
+					"notNull": true,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]{}>"
+			}
+		},
+		"/param/vendorpackage/getDevicelist": {
+			"params": {
+				"model": {
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"vendor": {
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation[]>"
+			}
+		},
+		"/param/vendorpackage/list": {
+			"method": "GET",
+			"params": {
+
+				"queryParam": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation"
+				},
+								"page": {
+					"notNull": true,
+					"type": "int"
+				},
+				"rows": {
+					"notNull": true,
+					"type": "int"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation>>"
+			}
+		},
+		"/param/vendorpackage/update": {
+			"method": "POST",
+			"params": {
+				"record": {
+					"notNull": false,
+					"type": "cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/param/vendorpackage/updateAndInsert": {
+			"method": "POST",
+			"params": {
+				"records": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]{}>"
+			}
+		},
+		"/redisclear": {
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/station/detail": {
+			"method": "GET",
+			"params": {
+				"stationId": {
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.station.StationRegionModel>"
+			}
+		},
+		"/station/group/add": {
+			"description": "对选中节点添加分组",
+			"method": "POST",
+			"params": {
+				"groupName": {
+					"description": "新增分组名称",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "父级节点的id",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup>"
+			}
+		},
+		"/station/group/load": {
+			"description": "获取分站/分组下属分组列表",
+			"method": "GET",
+			"params": {
+				"id": {
+					"description": "当前节点的id",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup[]>"
+			}
+		},
+		"/station/group/loadAuthorizedStationsTree": {
+			"description": "获取可访问分站树,全量",
+			"method": "GET",
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.JsTreeModel>"
+			}
+		},
+		"/station/group/loadNodeDevices": {
+			"description": "根据选中的节点获取节点下的所有设备",
+			"method": "GET",
+			"params": {
+				"id": {
+					"description": "当前节点的id",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"offlineDays": {
+					"description": "离线天数,起始天数区间,逗号分割",
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"stopedDays": {
+					"description": "静止天数,起始天数区间,逗号分割",
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo[]>"
+			}
+		},
+		"/station/group/queryDevicesByKeyword": {
+			"description": "根据输入姓名/身份证/车牌号/设备号查询设备列表",
+			"method": "GET",
+			"params": {
+				"keyword": {
+					"description": "姓名/身份证/车牌号/设备号",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo[]>"
+			}
+		},
+		"/station/group/update": {
+			"description": "修改指定设备所属分组",
+			"method": "POST",
+			"params": {
+				"groupId": {
+					"description": "新节点id",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "当前节点的id",
+					"notNull": true,
+					"type": "java.lang.String"
+				},
+				"imei": {
+					"description": "当前设备id",
+					"notNull": true,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>"
+			}
+		},
+		"/station/load": {
+			"method": "GET",
+			"params": {
+				"isDirect": {
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"provinceId": {
+					"notNull": false,
+					"type": "java.lang.String"
+				},
+				"stationId": {
+					"notNull": false,
+					"type": "java.lang.String"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.station.StationRegionModel>"
+			}
+		},
+		"/station/loadDetail": {
+			"method": "GET",
+			"params": {
+				"stationId": {
+					"notNull": false,
+					"type": "java.lang.Integer"
+				}
+			},
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.station.StationDetailModel>"
+			}
+		},
+		"/status": {
+			"return": {
+				"type": "java.lang.String"
+			}
+		},
+		"/ucenter": {
+			"return": {
+				"type": "com.weidai.common.support.model.rpc.RpcResult<com.weidai.ucenter.facade.vo.PbiVO>"
+			}
+		},
+		"/user/loadMenulist": {
+			"method": "GET",
+			"return": {
+				"type": "cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.MenuListModel>"
+			}
+		},
+		"/user/logout": {
+			"method": "GET"
+		}
+	},
+	"types": {
+		"boolean": {
+			"native": "boolean"
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.Column": {
+			"description": "菜单树模型",
+			"fields": {
+				"children": {
+					"description": "叶子节点列表",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.Column[]"
+				},
+				"data": {
+					"description": "url地址",
+					"type": "java.lang.String"
+				},
+				"description": {
+					"description": "描述",
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "id",
+					"type": "int"
+				},
+				"name": {
+					"description": "显示名",
+					"type": "java.lang.String"
+				},
+				"type": {
+					"description": "是否叶子节点",
+					"type": "int"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.ComboboxModel": {
+			"description": "下拉框对象",
+			"fields": {
+				"name": {
+					"type": "java.lang.String"
+				},
+				"value": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]{}>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]{}"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.JsTreeModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.JsTreeModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.common.lang.MenuListModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.MenuListModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.CarOwnerDeviceInfoModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.CarOwnerDeviceInfoModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.CountNumberParam>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.CountNumberParam"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.share.DingtalkShareInfoModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.share.DingtalkShareInfoModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.station.StationDetailModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.station.StationDetailModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.model.station.StationRegionModel>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.station.StationRegionModel"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.operation.SimChangeRecord[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.operation.SimChangeRecord[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStock"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.SysParam>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.SysParam>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Boolean>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "java.lang.Boolean"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Integer>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "java.lang.Integer"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.String>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "java.lang.String"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.GpsResult<java.lang.Void>": {
+			"description": "全局返回对象",
+			"fields": {
+				"code": {
+					"description": "错误代码,0为成功,其他均为失败",
+					"type": "java.lang.String"
+				},
+				"data": {
+					"description": "返回内容,Object",
+					"type": "java.lang.Void"
+				},
+				"message": {
+					"description": "错误描述",
+					"type": "java.lang.String"
+				},
+				"success": {
+					"description": "是否成功",
+					"type": "boolean"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.JsTreeModel": {
+			"description": "jsTree树模型",
+			"fields": {
+				"children": {
+					"description": "子节点列表",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.JsTreeModel[]"
+				},
+				"id": {
+					"description": "唯一标识,id与level用下划线分割,如1_1",
+					"type": "java.lang.String"
+				},
+				"text": {
+					"description": "显示名",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.common.lang.MenuListModel": {
+			"description": "菜单列表模型",
+			"fields": {
+				"authorizeBtnStatus": {
+					"description": "按钮列表",
+					"type": "java.lang.Boolean{}"
+				},
+				"columns": {
+					"description": "菜单列表",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.Column"
+				},
+				"userName": {
+					"description": "当前登陆用户名",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel": {
+			"description": "借款人与车辆信息模型",
+			"fields": {
+				"amount": {
+					"description": "借款金额,单位万元",
+					"type": "java.lang.String"
+				},
+				"brand": {
+					"description": "车辆品牌",
+					"type": "java.lang.String"
+				},
+				"gpsDeposit": {
+					"description": "gps押金,单位元",
+					"type": "java.lang.String"
+				},
+				"loanProcedures": {
+					"description": "贷款手续,抵押登记/过户的枚举值",
+					"type": "java.lang.String"
+				},
+				"loanType": {
+					"description": "贷款类型,质押/抵押的枚举值",
+					"type": "java.lang.String"
+				},
+				"lostDeviceCount": {
+					"description": "已遗失设备量",
+					"type": "int"
+				},
+				"model": {
+					"description": "车辆型号",
+					"type": "java.lang.String"
+				},
+				"owner": {
+					"description": "借款人",
+					"type": "java.lang.String"
+				},
+				"phoneNumber": {
+					"description": "电话号码",
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"description": "车牌号码",
+					"type": "java.lang.String"
+				},
+				"productTypeName": {
+					"description": "产品类型,车抵贷/融租贷的枚举值",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.CarOwnerDeviceInfoModel": {
+			"description": "借款人与设备信息模型",
+			"fields": {
+				"carInfo": {
+					"description": "借款人与车辆信息模型列表",
+					"type": "cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel"
+				},
+				"devices": {
+					"description": "设备列表",
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]"
+				},
+				"isNeedManDecision": {
+					"description": "是否显示无线自主确认是否需要安装",
+					"type": "java.lang.String"
+				},
+				"wiredDeviceCount": {
+					"description": "有线设备安装要求",
+					"type": "int"
+				},
+				"wirelessDeviceCount": {
+					"description": "无线设备安装要求",
+					"type": "int"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.location.DeviceLocationInfo": {
+			"description": "设备定位信息列表",
+			"fields": {
+				"carIcon": {
+					"description": "车辆图标枚举,详见参数表",
+					"type": "java.lang.String"
+				},
+				"course": {
+					"description": "当前行驶方位角,正北方向为0度,顺时针方向增大.最大值360度",
+					"mock": "0",
+					"type": "java.lang.Integer"
+				},
+				"currentStatus": {
+					"description": "当前设备状态,静止/行驶中/离线枚举值",
+					"type": "java.lang.String",
+					"values": [
+						"1",
+						"2",
+						"3",
+						"4"
+					]
+				},
+				"deviceInstallTime": {
+					"description": "设备安装时间",
+					"type": "java.util.Date"
+				},
+				"distance": {
+					"description": "行驶里程,增量累加",
+					"type": "double"
+				},
+				"gpsTime": {
+					"description": "定位时间",
+					"type": "java.util.Date"
+				},
+				"groupId": {
+					"description": "设备所在分组",
+					"type": "java.lang.String"
+				},
+				"heartTime": {
+					"description": "信号时间",
+					"type": "java.util.Date"
+				},
+				"hours": {
+					"description": "状态持续时长,单位小时",
+					"type": "java.lang.String"
+				},
+				"imei": {
+					"description": "设备id",
+					"type": "java.lang.String"
+				},
+				"keepHours": {
+					"description": "状态持续时长,x分x秒->x小时x分->x天x小时",
+					"type": "java.lang.String"
+				},
+				"lat": {
+					"description": "纬度,例:22.54546",
+					"mock": "35.1724",
+					"type": "java.lang.String"
+				},
+				"lng": {
+					"description": "经度,例:113.91919",
+					"mock": "113.91919",
+					"type": "java.lang.String"
+				},
+				"model": {
+					"description": "设备型号枚举值",
+					"type": "java.lang.String"
+				},
+				"order": {
+					"description": "设备安装顺序,如1,2,3...",
+					"min": 1,
+					"type": "java.lang.Integer"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"runtime": {
+					"description": "运行时长,0分0秒->0小时0分->0天0小时",
+					"type": "java.lang.String"
+				},
+				"sequenceNo": {
+					"description": "数据记录唯一标识,时间顺序递增",
+					"type": "java.lang.Integer"
+				},
+				"sim": {
+					"description": "sim卡号",
+					"type": "java.lang.String"
+				},
+				"speed": {
+					"description": "当前行驶速度,单位:km/h",
+					"type": "java.lang.Integer"
+				},
+				"statusStartTime": {
+					"description": "当前设备状态开始时间",
+					"type": "java.util.Date"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.stock.CountNumberParam": {
+			"description": "设备状态统计对象",
+			"fields": {
+				"currentNumbaer": {
+					"type": "java.lang.Long"
+				},
+				"failureNumber": {
+					"description": "故障设备",
+					"type": "java.lang.Long"
+				},
+				"freeNumber": {
+					"description": "空闲设备",
+					"type": "java.lang.Long"
+				},
+				"scrapNumber": {
+					"description": "报废设备",
+					"type": "java.lang.Long"
+				},
+				"stationName": {
+					"type": "java.lang.String"
+				},
+				"totalNumber": {
+					"description": "总部总设备",
+					"type": "java.lang.Long"
+				},
+				"usedLostNumber": {
+					"description": "流失数量",
+					"type": "java.lang.Long"
+				},
+				"workNumber": {
+					"description": "使用中设备",
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt": {
+			"description": "库存信息表",
+			"fields": {
+				"assetCompany": {
+					"description": "资产公司,枚举详见系统参数表",
+					"type": "java.lang.String"
+				},
+				"breakdownTimes": {
+					"description": "故障次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"carIcon": {
+					"description": "车辆图标枚举,详见参数表",
+					"type": "java.lang.String"
+				},
+				"createTime": {
+					"description": "录入时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "录入人",
+					"type": "java.lang.String"
+				},
+				"deviceAmount": {
+					"description": "设备金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"deviceInstallTime": {
+					"description": "设备安装时间",
+					"type": "java.util.Date"
+				},
+				"deviceStatus": {
+					"description": "设备状态,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"groupId": {
+					"description": "分组id,0为默认分组",
+					"type": "java.lang.Integer"
+				},
+				"hashString": {
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "主键Id",
+					"type": "java.lang.Integer"
+				},
+				"imei": {
+					"description": "设备唯一标识",
+					"type": "java.lang.String"
+				},
+				"stationType": {
+					"description": "是否直营店",
+					"type": "java.lang.String"
+				},
+				"model": {
+					"description": "设备型号,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"operateTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operateType": {
+					"description": "操作类型:1单笔新增,2批量新增,3其他",
+					"type": "java.lang.String"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"pId": {
+					"description": "抵押物id",
+					"type": "java.lang.Integer"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"platformAmount": {
+					"description": "平台使用费,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"powerType": {
+					"description": "电源类型:1有线,2无线",
+					"type": "java.lang.String"
+				},
+				"provinceId": {
+					"description": "省分公司cid",
+					"type": "java.lang.Integer"
+				},
+				"provinceName": {
+					"description": "省分公司名称",
+					"type": "java.lang.String"
+				},
+				"repaireTimes": {
+					"description": "维修次数",
+					"type": "java.lang.Integer"
+				},
+				"reportIsAvailble": {
+					"description": "导入数据是否有效:0否,1是.标示数据录入状态",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"sim": {
+					"description": "sim卡号",
+					"type": "java.lang.String"
+				},
+				"simAmount": {
+					"description": "sim卡金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"simOperator": {
+					"description": "sim卡运营商:1移动,2其他",
+					"type": "java.lang.String"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"stationId": {
+					"description": "分站id",
+					"type": "java.lang.Integer"
+				},
+				"stationName": {
+					"description": "分站名称",
+					"type": "java.lang.String"
+				},
+				"totalAmount": {
+					"description": "总金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"totalUseDays": {
+					"description": "累计使用时常,最大9999",
+					"type": "java.lang.Integer"
+				},
+				"uId": {
+					"description": "借款人id",
+					"type": "java.lang.Integer"
+				},
+				"usedTimes": {
+					"description": "使用次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"vendor": {
+					"description": "厂商,枚举值详见系统参数表",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam": {
+			"description": "设备信息扩展对象",
+			"fields": {
+				"assetCompany": {
+					"description": "资产公司,枚举详见系统参数表",
+					"type": "java.lang.String"
+				},
+				"breakdownTimes": {
+					"description": "故障次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"breakdownTimesEnd": {
+					"type": "java.lang.Integer"
+				},
+				"breakdownTimesStart": {
+					"type": "java.lang.Integer"
+				},
+				"carIcon": {
+					"description": "车辆图标枚举,详见参数表",
+					"type": "java.lang.String"
+				},
+				"carInfoModel": {
+					"type": "cn.com.weidai.gps.gpspf.entity.model.car.CarInfoModel"
+				},
+				"createTime": {
+					"description": "录入时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "录入人",
+					"type": "java.lang.String"
+				},
+				"deviceAmount": {
+					"description": "设备金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"deviceInstallTime": {
+					"description": "设备安装时间",
+					"type": "java.util.Date"
+				},
+				"deviceStatus": {
+					"description": "设备状态,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"endTime": {
+					"description": "录入结束时间查询用",
+					"type": "java.util.Date"
+				},
+				"groupId": {
+					"description": "分组id,0为默认分组",
+					"type": "java.lang.Integer"
+				},
+				"id": {
+					"description": "主键Id",
+					"type": "java.lang.Integer"
+				},
+				"idList": {
+					"description": "ID集合",
+					"type": "java.lang.Integer[]"
+				},
+				"imei": {
+					"description": "设备唯一标识",
+					"type": "java.lang.String"
+				},
+				"stationType": {
+					"description": "是否直营店",
+					"type": "java.lang.String"
+				},
+				"messAge": {
+					"description": "录入不合理数据返回",
+					"type": "java.lang.String"
+				},
+				"model": {
+					"description": "设备型号,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"operateTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operateType": {
+					"description": "操作类型:1单笔新增,2批量新增,3其他",
+					"type": "java.lang.String"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"pId": {
+					"description": "抵押物id",
+					"type": "java.lang.Integer"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"platformAmount": {
+					"description": "平台使用费,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"powerType": {
+					"description": "电源类型:1有线,2无线",
+					"type": "java.lang.String"
+				},
+				"provinceId": {
+					"description": "省分公司cid",
+					"type": "java.lang.Integer"
+				},
+				"provinceIds": {
+					"type": "java.lang.Integer[]"
+				},
+				"provinceName": {
+					"description": "省分公司名称",
+					"type": "java.lang.String"
+				},
+				"repaireTimes": {
+					"description": "维修次数",
+					"type": "java.lang.Integer"
+				},
+				"repairedCount": {
+					"description": "维修次数",
+					"type": "java.lang.Long"
+				},
+				"reportIsAvailble": {
+					"description": "导入数据是否有效:0否,1是.标示数据录入状态",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"sim": {
+					"description": "sim卡号",
+					"type": "java.lang.String"
+				},
+				"simAmount": {
+					"description": "sim卡金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"simOperator": {
+					"description": "sim卡运营商:1移动,2其他",
+					"type": "java.lang.String"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"startTime": {
+					"description": "录入开始时间查询用",
+					"type": "java.util.Date"
+				},
+				"stationId": {
+					"description": "分站id",
+					"type": "java.lang.Integer"
+				},
+				"stationIds": {
+					"type": "java.lang.Integer[]"
+				},
+				"stationName": {
+					"description": "分站名称",
+					"type": "java.lang.String"
+				},
+				"totalAmount": {
+					"description": "总金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"totalUseDays": {
+					"description": "累计使用时常,最大9999",
+					"type": "java.lang.Integer"
+				},
+				"totalUseDaysEnd": {
+					"type": "java.lang.Integer"
+				},
+				"totalUseDaysStart": {
+					"type": "java.lang.Integer"
+				},
+				"uId": {
+					"description": "借款人id",
+					"type": "java.lang.Integer"
+				},
+				"usedTimes": {
+					"description": "使用次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"usedTimesEnd": {
+					"type": "java.lang.Integer"
+				},
+				"usedTimesStart": {
+					"type": "java.lang.Integer"
+				},
+				"vendor": {
+					"description": "厂商,枚举值详见系统参数表",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockInfo": {
+			"description": "库存信息模型",
+			"fields": {
+				"assetCompany": {
+					"description": "资产公司ID",
+					"type": "java.lang.String"
+				},
+				"deviceID": {
+					"description": "主键设备ID (如果是多条，以逗号分隔",
+					"type": "java.lang.Integer[]"
+				},
+				"deviceStockList": {
+					"description": "库存列表",
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]"
+				},
+				"provinceId": {
+					"description": "省份Id",
+					"type": "java.lang.Integer"
+				},
+				"stationId": {
+					"description": "门店编号",
+					"type": "java.lang.String"
+				},
+				"vendorPackageId": {
+					"description": "厂商套餐Id",
+					"type": "java.lang.Integer"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.share.DingtalkShareInfoModel": {
+			"description": "钉钉轨迹分享模型",
+			"fields": {
+				"endTime": {
+					"description": "轨迹结束时间",
+					"type": "java.lang.String"
+				},
+				"imei": {
+					"description": "设备Id",
+					"type": "java.lang.String"
+				},
+				"mobileNumber": {
+					"description": "接收人手机号",
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"startTime": {
+					"description": "轨迹开始时间",
+					"type": "java.lang.String"
+				},
+				"stayTime": {
+					"description": "停留标识",
+					"type": "java.lang.Integer"
+				},
+				"tracksJson": {
+					"description": "轨迹数据json字符串",
+					"type": "java.lang.String"
+				},
+				"uName": {
+					"description": "发送人登录名",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.station.StationDetailModel": {
+			"fields": {
+				"proviceId": {
+					"type": "java.lang.Integer"
+				},
+				"provinceName": {
+					"type": "java.lang.String"
+				},
+				"stationId": {
+					"type": "java.lang.Integer"
+				},
+				"stationName": {
+					"type": "java.lang.String"
+				},
+				"stationType": {
+					"type": "java.lang.Integer"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.model.station.StationRegionModel": {
+			"description": "分站省份城市相关信息模型",
+			"fields": {
+				"cities": {
+					"description": "城市列表下拉框数据模型集合(按条件筛选使用)",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]"
+				},
+				"isDirectList": {
+					"description": "经营方式列表下拉框数据模型集合(按条件筛选使用)",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]"
+				},
+				"provinces": {
+					"description": "省份列表下拉框数据模型集合(按条件筛选使用)",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]"
+				},
+				"stations": {
+					"description": "分站列表下拉框数据模型集合(按条件筛选使用)",
+					"type": "cn.com.weidai.gps.gpspf.common.lang.ComboboxModel[]"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag": {
+			"description": "区域监控标签表",
+			"fields": {
+				"areaId": {
+					"description": "区域编码",
+					"type": "java.lang.String"
+				},
+				"areaName": {
+					"description": "区域名称,X省X市X区",
+					"type": "java.lang.String"
+				},
+				"createTime": {
+					"description": "创建时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "创建人",
+					"type": "java.lang.String"
+				},
+				"detailAddress": {
+					"description": "标签详细地址",
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"isDelete": {
+					"description": "是否已删除",
+					"type": "java.lang.Integer"
+				},
+				"lat": {
+					"description": "纬度,示例:90.123456",
+					"mock": "90.123456",
+					"type": "java.math.BigDecimal"
+				},
+				"lng": {
+					"description": "经度,示例:123.123456",
+					"mock": "123.123456",
+					"type": "java.math.BigDecimal"
+				},
+				"operateTime": {
+					"description": "最后更新时间",
+					"type": "java.util.Date"
+				},
+				"operator": {
+					"description": "最后更新人",
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"remark": {
+					"description": "标签备注",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"tagName": {
+					"description": "标签名称",
+					"type": "java.lang.String"
+				},
+				"tagStatus": {
+					"description": "标签确认状态,枚举",
+					"type": "java.lang.String",
+					"values": [
+						"0",
+						"1"
+					]
+				},
+				"tagType": {
+					"description": "标签类型,枚举",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.operation.RecycleRecord": {
+			"description": "回收记录",
+			"fields": {
+				"breakdownReason": {
+					"description": "故障原因",
+					"type": "java.lang.String"
+				},
+				"breakdownType": {
+					"description": "故障类型",
+					"type": "java.lang.String"
+				},
+				"createTime": {
+					"description": "回收时间",
+					"type": "java.util.Date"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"imei": {
+					"description": "设备唯一标识",
+					"type": "java.lang.String"
+				},
+				"isBreakdown": {
+					"description": "是否故障",
+					"type": "java.lang.String"
+				},
+				"isRecycle": {
+					"description": "是否回收",
+					"type": "java.lang.String"
+				},
+				"lossType": {
+					"description": "流失类型,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"recycleAmount": {
+					"description": "回收金额,单位元,最大值9999.99",
+					"type": "java.math.BigDecimal"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"type": {
+					"description": "回收类型:1确定回收,2.客户不配合回收,3遗失",
+					"type": "java.lang.String"
+				},
+				"typeDesc": {
+					"description": "回收类型描述",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.operation.SimChangeRecord": {
+			"description": "sim变更信息",
+			"fields": {
+				"deviceSttaus": {
+					"description": "设备状态,记录当设备状态",
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"imei": {
+					"description": "设备唯一标识",
+					"type": "java.lang.String"
+				},
+				"operateTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"sim": {
+					"description": "SIM卡号",
+					"type": "java.lang.String"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.param.SysParam": {
+			"description": "系统参数表",
+			"fields": {
+				"createTime": {
+					"description": "创建时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "创建人",
+					"type": "java.lang.String"
+				},
+				"endValue": {
+					"description": "范围值,结束值",
+					"type": "java.lang.Integer"
+				},
+				"id": {
+					"description": "主键",
+					"type": "java.lang.Integer"
+				},
+				"operateTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"paramCode": {
+					"description": "参数唯一编码",
+					"type": "java.lang.String"
+				},
+				"paramName": {
+					"description": "中文描述",
+					"type": "java.lang.String"
+				},
+				"paramOrder": {
+					"description": "排序,0~99",
+					"type": "java.lang.Integer"
+				},
+				"paramStatus": {
+					"description": "状态:0为禁用,1为可用",
+					"type": "java.lang.String"
+				},
+				"paramType": {
+					"description": "参数类型",
+					"type": "java.lang.String"
+				},
+				"paramTypeName": {
+					"description": "参数类型名称",
+					"type": "java.lang.String"
+				},
+				"paramValue": {
+					"description": "参数枚举值,字符串0~99",
+					"type": "java.lang.String"
+				},
+				"parentCode": {
+					"description": "父节点类型代码",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"startValue": {
+					"description": "范围值,起始值",
+					"type": "java.lang.Integer"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation": {
+			"description": "厂商套餐配置表",
+			"fields": {
+				"createTime": {
+					"description": "创建时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "创建人",
+					"type": "java.lang.String"
+				},
+				"deviceAmount": {
+					"description": "设备金额,最大值9999.99元",
+					"type": "java.math.BigDecimal"
+				},
+				"deviceModel": {
+					"description": "设备型号显示名",
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"isDeleted": {
+					"description": "逻辑删除标示",
+					"type": "java.lang.String"
+				},
+				"model": {
+					"description": "设备型号枚举值",
+					"type": "java.lang.String"
+				},
+				"opearator": {
+					"description": "更新人",
+					"type": "java.lang.String"
+				},
+				"operateTime": {
+					"description": "更新时间",
+					"type": "java.util.Date"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"platformAmount": {
+					"description": "平台管理费,最大值999.99,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"powerType": {
+					"description": "电源类型",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"simAmount": {
+					"description": "SIM卡金额,最大值999.99,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"totalAmount": {
+					"description": "总计金额",
+					"type": "java.math.BigDecimal"
+				},
+				"vendor": {
+					"description": "厂商",
+					"type": "java.lang.String"
+				},
+				"vendorName": {
+					"description": "厂商名称",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.station.group.StationDeviceGroup": {
+			"description": "分站分组信息表",
+			"fields": {
+				"groupLevel": {
+					"description": "分组级别,0为默认分组,1为分站下第一级分组",
+					"type": "java.lang.Integer"
+				},
+				"groupName": {
+					"description": "分组名称",
+					"type": "java.lang.String"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"parentId": {
+					"description": "父级分组id,默认分组与一级分组为其直属分站id",
+					"type": "java.lang.Integer"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"stationId": {
+					"description": "分站ID",
+					"type": "java.lang.Integer"
+				},
+				"stationLevel": {
+					"description": "分站级别,1为总部,2为分公司,3为分站",
+					"type": "java.lang.Integer"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord": {
+			"description": "设备持续状态",
+			"fields": {
+				"breakdownReason": {
+					"description": "故障原因",
+					"type": "java.lang.String"
+				},
+				"breakdownType": {
+					"description": "故障类型",
+					"type": "java.lang.String"
+				},
+				"changeDesc": {
+					"description": "变更描述",
+					"type": "java.lang.String"
+				},
+				"endTime": {
+					"description": "结束时间",
+					"type": "java.util.Date"
+				},
+				"id": {
+					"description": "主键ID",
+					"type": "java.lang.Integer"
+				},
+				"imei": {
+					"description": "设备唯一编号",
+					"type": "java.lang.String"
+				},
+				"operatTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"plateNumber": {
+					"description": "车牌号码",
+					"type": "java.lang.String"
+				},
+				"repairAmount": {
+					"description": "设备故障维修金额,单位元,最大999.99",
+					"type": "java.math.BigDecimal"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"sim": {
+					"description": "设备SIM卡号",
+					"type": "java.lang.String"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"startTime": {
+					"description": "开始时间",
+					"type": "java.util.Date"
+				},
+				"type": {
+					"description": "状态类型:1.空闲,2使用中,3故障,4报废,5遗失.详见参数表",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"cn.com.weidai.gps.gpspf.entity.stock.DeviceStock": {
+			"description": "库存信息表",
+			"fields": {
+				"assetCompany": {
+					"description": "资产公司,枚举详见系统参数表",
+					"type": "java.lang.String"
+				},
+				"breakdownTimes": {
+					"description": "故障次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"carIcon": {
+					"description": "车辆图标枚举,详见参数表",
+					"type": "java.lang.String"
+				},
+				"createTime": {
+					"description": "录入时间",
+					"type": "java.util.Date"
+				},
+				"creator": {
+					"description": "录入人",
+					"type": "java.lang.String"
+				},
+				"deviceAmount": {
+					"description": "设备金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"deviceInstallTime": {
+					"description": "设备安装时间",
+					"type": "java.util.Date"
+				},
+				"deviceStatus": {
+					"description": "设备状态,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"groupId": {
+					"description": "分组id,0为默认分组",
+					"type": "java.lang.Integer"
+				},
+				"id": {
+					"description": "主键Id",
+					"type": "java.lang.Integer"
+				},
+				"imei": {
+					"description": "设备唯一标识",
+					"type": "java.lang.String"
+				},
+				"stationType": {
+					"description": "是否直营店",
+					"type": "java.lang.String"
+				},
+				"model": {
+					"description": "设备型号,枚举详见参数表",
+					"type": "java.lang.String"
+				},
+				"operateTime": {
+					"description": "操作时间",
+					"type": "java.util.Date"
+				},
+				"operateType": {
+					"description": "操作类型:1单笔新增,2批量新增,3其他",
+					"type": "java.lang.String"
+				},
+				"operator": {
+					"description": "操作人",
+					"type": "java.lang.String"
+				},
+				"pId": {
+					"description": "抵押物id",
+					"type": "java.lang.Integer"
+				},
+				"page": {
+					"description": "开始页码",
+					"type": "int"
+				},
+				"plateNumber": {
+					"description": "车牌号",
+					"type": "java.lang.String"
+				},
+				"platformAmount": {
+					"description": "平台使用费,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"powerType": {
+					"description": "电源类型:1有线,2无线",
+					"type": "java.lang.String"
+				},
+				"provinceId": {
+					"description": "省分公司cid",
+					"type": "java.lang.Integer"
+				},
+				"provinceName": {
+					"description": "省分公司名称",
+					"type": "java.lang.String"
+				},
+				"repaireTimes": {
+					"description": "维修次数",
+					"type": "java.lang.Integer"
+				},
+				"reportIsAvailble": {
+					"description": "导入数据是否有效:0否,1是.标示数据录入状态",
+					"type": "java.lang.String"
+				},
+				"rows": {
+					"description": "分页量",
+					"type": "int"
+				},
+				"sim": {
+					"description": "sim卡号",
+					"type": "java.lang.String"
+				},
+				"simAmount": {
+					"description": "sim卡金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"simOperator": {
+					"description": "sim卡运营商:1移动,2其他",
+					"type": "java.lang.String"
+				},
+				"start": {
+					"description": "开始行数=(page - 1) * rows",
+					"type": "int"
+				},
+				"stationId": {
+					"description": "分站id",
+					"type": "java.lang.Integer"
+				},
+				"stationName": {
+					"description": "分站名称",
+					"type": "java.lang.String"
+				},
+				"totalAmount": {
+					"description": "总金额,单位元",
+					"type": "java.math.BigDecimal"
+				},
+				"totalUseDays": {
+					"description": "累计使用时常,最大9999",
+					"type": "java.lang.Integer"
+				},
+				"uId": {
+					"description": "借款人id",
+					"type": "java.lang.Integer"
+				},
+				"usedTimes": {
+					"description": "使用次数,最大999",
+					"type": "java.lang.Integer"
+				},
+				"vendor": {
+					"description": "厂商,枚举值详见系统参数表",
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExt[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.model.device.stock.DeviceStockExtParam[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.monitor.tag.AreaMonitorTag[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.SysParam>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.param.SysParam[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.param.VendorPackageRelation[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStatusRecord[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.DataResult<cn.com.weidai.gps.gpspf.entity.stock.DeviceStock>": {
+			"fields": {
+				"data": {
+					"type": "cn.com.weidai.gps.gpspf.entity.stock.DeviceStock[]"
+				},
+				"total": {
+					"type": "java.lang.Long"
+				}
+			}
+		},
+		"com.weidai.common.support.model.rpc.RpcResult<com.weidai.ucenter.facade.vo.PbiVO>": {
+			"fields": {
+				"errorCode": {
+					"type": "java.lang.String"
+				},
+				"message": {
+					"type": "java.lang.String"
+				},
+				"result": {
+					"type": "com.weidai.ucenter.facade.vo.PbiVO"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"com.weidai.ucenter.facade.vo.PbiVO": {
+			"fields": {
+				"annual": {
+					"type": "java.math.BigDecimal"
+				},
+				"appraisement": {
+					"type": "java.math.BigDecimal"
+				},
+				"appraiser": {
+					"type": "java.lang.String"
+				},
+				"asendDate": {
+					"type": "java.util.Date"
+				},
+				"brand": {
+					"type": "java.lang.String"
+				},
+				"buyMoney": {
+					"type": "java.math.BigDecimal"
+				},
+				"carColour": {
+					"type": "java.lang.String"
+				},
+				"carConfig": {
+					"type": "java.lang.String"
+				},
+				"carDispl": {
+					"type": "java.lang.String"
+				},
+				"carEars": {
+					"type": "java.lang.String"
+				},
+				"carId": {
+					"type": "java.lang.String"
+				},
+				"carLimit": {
+					"type": "java.math.BigDecimal"
+				},
+				"content": {
+					"type": "java.lang.String"
+				},
+				"courtDecision": {
+					"type": "java.lang.String"
+				},
+				"createTime": {
+					"type": "java.util.Date"
+				},
+				"createdTime": {
+					"type": "java.util.Date"
+				},
+				"cxdm": {
+					"type": "java.lang.String"
+				},
+				"dataSource": {
+					"type": "java.lang.Integer"
+				},
+				"emissionStandard": {
+					"type": "java.lang.String"
+				},
+				"engineNumber": {
+					"type": "java.lang.String"
+				},
+				"fid": {
+					"type": "java.lang.String"
+				},
+				"firstregeDate": {
+					"type": "java.util.Date"
+				},
+				"flag": {
+					"type": "java.lang.String"
+				},
+				"guidePrice": {
+					"type": "java.lang.String"
+				},
+				"id": {
+					"type": "java.lang.Integer"
+				},
+				"insureKind": {
+					"type": "java.lang.String"
+				},
+				"isChangePlateNum": {
+					"type": "java.lang.Integer"
+				},
+				"isCompanycar": {
+					"type": "java.lang.String"
+				},
+				"isCredit": {
+					"type": "java.lang.String"
+				},
+				"isInstallment": {
+					"type": "java.lang.Integer"
+				},
+				"isMortgage": {
+					"type": "java.lang.String"
+				},
+				"isOil": {
+					"type": "java.lang.Integer"
+				},
+				"isRelativeTransfer": {
+					"type": "java.lang.Integer"
+				},
+				"isRentBuy": {
+					"type": "java.lang.Integer"
+				},
+				"isTrailer": {
+					"type": "java.lang.String"
+				},
+				"isTransferRegister": {
+					"type": "java.lang.Integer"
+				},
+				"lastRegDate": {
+					"type": "java.util.Date"
+				},
+				"loanQuota": {
+					"type": "java.math.BigDecimal"
+				},
+				"made": {
+					"type": "java.lang.String"
+				},
+				"manEvaluate": {
+					"type": "java.math.BigDecimal"
+				},
+				"mileage": {
+					"type": "java.lang.Integer"
+				},
+				"modifyTime": {
+					"type": "java.util.Date"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"outYear": {
+					"type": "java.lang.String"
+				},
+				"pId": {
+					"type": "java.lang.Integer"
+				},
+				"pawnType": {
+					"type": "java.lang.String"
+				},
+				"plateNumber": {
+					"type": "java.lang.String"
+				},
+				"platenoLimit": {
+					"type": "java.math.BigDecimal"
+				},
+				"pledgeNo": {
+					"type": "java.lang.Integer"
+				},
+				"pledgeState": {
+					"type": "java.lang.String"
+				},
+				"pointsNum": {
+					"type": "java.lang.Integer"
+				},
+				"premiumDeduct": {
+					"type": "java.math.BigDecimal"
+				},
+				"purchaseDate": {
+					"type": "java.util.Date"
+				},
+				"regMonth": {
+					"type": "java.lang.Integer"
+				},
+				"regYear": {
+					"type": "java.lang.Integer"
+				},
+				"releaseDate": {
+					"type": "java.util.Date"
+				},
+				"sealupState": {
+					"type": "java.lang.String"
+				},
+				"skylight": {
+					"type": "java.lang.String"
+				},
+				"status": {
+					"type": "java.lang.Integer"
+				},
+				"sysEvaluate": {
+					"type": "java.math.BigDecimal"
+				},
+				"sysEvaluateSource": {
+					"type": "java.lang.String"
+				},
+				"transferNo": {
+					"type": "java.lang.Integer"
+				},
+				"typeId": {
+					"type": "java.lang.Integer"
+				},
+				"uid": {
+					"type": "java.lang.Integer"
+				},
+				"valSource": {
+					"type": "java.lang.String"
+				},
+				"vendor": {
+					"type": "java.lang.String"
+				},
+				"vin": {
+					"type": "java.lang.String"
+				},
+				"violation": {
+					"type": "java.lang.Integer"
+				},
+				"violationDeduct": {
+					"type": "java.math.BigDecimal"
+				},
+				"withhold": {
+					"type": "java.math.BigDecimal"
+				}
+			}
+		},
+		"double": {
+			"native": "number"
+		},
+		"int": {
+			"native": "integer"
+		},
+		"java.lang.Boolean": {
+			"native": "boolean"
+		},
+		"java.lang.Integer": {
+			"native": "integer"
+		},
+		"java.lang.Long": {
+			"native": "integer"
+		},
+		"java.lang.String": {
+			"native": "string"
+		},
+		"java.lang.Void": {
+			"fields": {}
+		},
+		"java.math.BigDecimal": {
+			"native": "number"
+		},
+		"java.util.Date": {
+			"native": "date"
+		},
+		"org.jsondoc.core.pojo.ApiAuthDoc": {
+			"fields": {
+				"roles": {
+					"type": "java.lang.String[]"
+				},
+				"scheme": {
+					"type": "java.lang.String"
+				},
+				"testtokens": {
+					"type": "java.lang.String[]"
+				},
+				"testusers": {
+					"type": "java.lang.String{}"
+				},
+				"type": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiBodyObjectDoc": {
+			"fields": {
+				"jsondocTemplate": {
+					"type": "org.jsondoc.core.pojo.JSONDocTemplate"
+				},
+				"jsondocType": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiDoc": {
+			"fields": {
+				"auth": {
+					"type": "org.jsondoc.core.pojo.ApiAuthDoc"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"group": {
+					"type": "java.lang.String"
+				},
+				"methods": {
+					"type": "org.jsondoc.core.pojo.ApiMethodDoc[]"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"stage": {
+					"type": "org.jsondoc.core.pojo.ApiStage"
+				},
+				"supportedversions": {
+					"type": "org.jsondoc.core.pojo.ApiVersionDoc"
+				},
+				"visibility": {
+					"type": "org.jsondoc.core.pojo.ApiVisibility"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiErrorDoc": {
+			"fields": {
+				"code": {
+					"type": "java.lang.String"
+				},
+				"description": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiHeaderDoc": {
+			"fields": {
+				"allowedvalues": {
+					"type": "java.lang.String[]"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"name": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiMethodDoc": {
+			"fields": {
+				"apierrors": {
+					"type": "org.jsondoc.core.pojo.ApiErrorDoc[]"
+				},
+				"auth": {
+					"type": "org.jsondoc.core.pojo.ApiAuthDoc"
+				},
+				"bodyobject": {
+					"type": "org.jsondoc.core.pojo.ApiBodyObjectDoc"
+				},
+				"consumes": {
+					"type": "java.lang.String[]"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"displayMethodAs": {
+					"type": "org.jsondoc.core.pojo.JSONDoc.MethodDisplay"
+				},
+				"headers": {
+					"type": "org.jsondoc.core.pojo.ApiHeaderDoc[]"
+				},
+				"id": {
+					"type": "java.lang.String"
+				},
+				"jsondocerrors": {
+					"type": "java.lang.String[]"
+				},
+				"jsondochints": {
+					"type": "java.lang.String[]"
+				},
+				"jsondocwarnings": {
+					"type": "java.lang.String[]"
+				},
+				"method": {
+					"type": "java.lang.String"
+				},
+				"path": {
+					"type": "java.lang.String[]"
+				},
+				"pathparameters": {
+					"type": "org.jsondoc.core.pojo.ApiParamDoc[]"
+				},
+				"produces": {
+					"type": "java.lang.String[]"
+				},
+				"queryparameters": {
+					"type": "org.jsondoc.core.pojo.ApiParamDoc[]"
+				},
+				"response": {
+					"type": "org.jsondoc.core.pojo.ApiResponseObjectDoc"
+				},
+				"responsestatuscode": {
+					"type": "java.lang.String"
+				},
+				"stage": {
+					"type": "org.jsondoc.core.pojo.ApiStage"
+				},
+				"summary": {
+					"type": "java.lang.String"
+				},
+				"supportedversions": {
+					"type": "org.jsondoc.core.pojo.ApiVersionDoc"
+				},
+				"verb": {
+					"type": "org.jsondoc.core.pojo.ApiVerb[]"
+				},
+				"visibility": {
+					"type": "org.jsondoc.core.pojo.ApiVisibility"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiObjectDoc": {
+			"fields": {
+				"allowedvalues": {
+					"type": "java.lang.String[]"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"fields": {
+					"type": "org.jsondoc.core.pojo.ApiObjectFieldDoc[]"
+				},
+				"group": {
+					"type": "java.lang.String"
+				},
+				"jsondocTemplate": {
+					"type": "org.jsondoc.core.pojo.JSONDocTemplate"
+				},
+				"jsondocerrors": {
+					"type": "java.lang.String[]"
+				},
+				"jsondochints": {
+					"type": "java.lang.String[]"
+				},
+				"jsondocwarnings": {
+					"type": "java.lang.String[]"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"show": {
+					"type": "boolean"
+				},
+				"stage": {
+					"type": "org.jsondoc.core.pojo.ApiStage"
+				},
+				"supportedversions": {
+					"type": "org.jsondoc.core.pojo.ApiVersionDoc"
+				},
+				"visibility": {
+					"type": "org.jsondoc.core.pojo.ApiVisibility"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiObjectFieldDoc": {
+			"fields": {
+				"allowedvalues": {
+					"type": "java.lang.String[]"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"format": {
+					"type": "java.lang.String[]"
+				},
+				"jsondocType": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				},
+				"jsondocerrors": {
+					"type": "java.lang.String[]"
+				},
+				"jsondochints": {
+					"type": "java.lang.String[]"
+				},
+				"jsondocwarnings": {
+					"type": "java.lang.String[]"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"order": {
+					"type": "java.lang.Integer"
+				},
+				"required": {
+					"type": "java.lang.String"
+				},
+				"supportedversions": {
+					"type": "org.jsondoc.core.pojo.ApiVersionDoc"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiParamDoc": {
+			"fields": {
+				"allowedvalues": {
+					"type": "java.lang.String[]"
+				},
+				"defaultvalue": {
+					"type": "java.lang.String"
+				},
+				"description": {
+					"type": "java.lang.String"
+				},
+				"format": {
+					"type": "java.lang.String"
+				},
+				"jsondocType": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				},
+				"jsondocerrors": {
+					"type": "java.lang.String[]"
+				},
+				"jsondochints": {
+					"type": "java.lang.String[]"
+				},
+				"jsondocwarnings": {
+					"type": "java.lang.String[]"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"required": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiResponseObjectDoc": {
+			"fields": {
+				"jsondocType": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiStage": {
+			"fields": {
+				"ALPHA": {},
+				"BETA": {},
+				"DEPRECATED": {},
+				"GA": {},
+				"PRE_ALPHA": {},
+				"RC": {},
+				"UNDEFINED": {}
+			},
+			"type": "enum"
+		},
+		"org.jsondoc.core.pojo.ApiVerb": {
+			"fields": {
+				"DELETE": {},
+				"GET": {},
+				"HEAD": {},
+				"OPTIONS": {},
+				"PATCH": {},
+				"POST": {},
+				"PUT": {},
+				"TRACE": {}
+			},
+			"type": "enum"
+		},
+		"org.jsondoc.core.pojo.ApiVersionDoc": {
+			"fields": {
+				"since": {
+					"type": "java.lang.String"
+				},
+				"until": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.ApiVisibility": {
+			"fields": {
+				"PRIVATE": {},
+				"PUBLIC": {},
+				"UNDEFINED": {}
+			},
+			"type": "enum"
+		},
+		"org.jsondoc.core.pojo.JSONDoc": {
+			"fields": {
+				"apis": {
+					"type": "org.jsondoc.core.pojo.ApiDoc[]{}"
+				},
+				"basePath": {
+					"type": "java.lang.String"
+				},
+				"displayMethodAs": {
+					"type": "org.jsondoc.core.pojo.JSONDoc.MethodDisplay"
+				},
+				"flows": {
+					"type": "org.jsondoc.core.pojo.flow.ApiFlowDoc[]{}"
+				},
+				"global": {
+					"type": "org.jsondoc.core.pojo.global.ApiGlobalDoc"
+				},
+				"objects": {
+					"type": "org.jsondoc.core.pojo.ApiObjectDoc[]{}"
+				},
+				"playgroundEnabled": {
+					"type": "boolean"
+				},
+				"version": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.JSONDoc.MethodDisplay": {
+			"fields": {
+				"METHOD": {},
+				"SUMMARY": {},
+				"URI": {}
+			},
+			"type": "enum"
+		},
+		"org.jsondoc.core.pojo.JSONDocTemplate": {},
+		"org.jsondoc.core.pojo.flow.ApiFlowDoc": {
+			"fields": {
+				"description": {
+					"type": "java.lang.String"
+				},
+				"group": {
+					"type": "java.lang.String"
+				},
+				"methods": {
+					"type": "org.jsondoc.core.pojo.ApiMethodDoc[]"
+				},
+				"name": {
+					"type": "java.lang.String"
+				},
+				"preconditions": {
+					"type": "java.lang.String[]"
+				},
+				"steps": {
+					"type": "org.jsondoc.core.pojo.flow.ApiFlowStepDoc[]"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.flow.ApiFlowStepDoc": {
+			"fields": {
+				"apimethoddoc": {
+					"type": "org.jsondoc.core.pojo.ApiMethodDoc"
+				},
+				"apimethodid": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiChangelogDoc": {
+			"fields": {
+				"changes": {
+					"type": "java.lang.String[]"
+				},
+				"version": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiChangelogsDoc": {
+			"fields": {
+				"changelogs": {
+					"type": "org.jsondoc.core.pojo.global.ApiChangelogDoc[]"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiGlobalDoc": {
+			"fields": {
+				"changelogset": {
+					"type": "org.jsondoc.core.pojo.global.ApiChangelogsDoc"
+				},
+				"migrationset": {
+					"type": "org.jsondoc.core.pojo.global.ApiMigrationsDoc"
+				},
+				"sections": {
+					"type": "org.jsondoc.core.pojo.global.ApiGlobalSectionDoc[]"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiGlobalSectionDoc": {
+			"fields": {
+				"paragraphs": {
+					"type": "java.lang.String[]"
+				},
+				"title": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiMigrationDoc": {
+			"fields": {
+				"fromVersion": {
+					"type": "java.lang.String"
+				},
+				"steps": {
+					"type": "java.lang.String[]"
+				},
+				"toVersion": {
+					"type": "java.lang.String"
+				}
+			}
+		},
+		"org.jsondoc.core.pojo.global.ApiMigrationsDoc": {
+			"fields": {
+				"migrations": {
+					"type": "org.jsondoc.core.pojo.global.ApiMigrationDoc[]"
+				}
+			}
+		},
+		"org.jsondoc.core.util.JSONDocType": {
+			"fields": {
+				"mapKey": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				},
+				"mapValue": {
+					"type": "org.jsondoc.core.util.JSONDocType"
+				},
+				"type": {
+					"type": "java.lang.String[]"
+				}
+			}
+		}
+	},
+	"version": 1
 }

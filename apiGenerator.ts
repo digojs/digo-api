@@ -991,15 +991,18 @@ export class ApiGenerator {
      * @param args 各关键字的替换值。
      */
     private runTpl(tpl: string, data: any) {
-        tpl = ("%>" + tpl + "<%").replace(/\r?\n(<%[\s\S]*?%>)/g, "$1").replace(/%>([\s\S]*?)<%(=?)/g, (all, plain: string, eq?: string) => {
+        tpl = `var $output="";${("%>" + tpl + "<%").replace(/\r?\n(<%[\s\S]*?%>)/g, "$1").replace(/%>([\s\S]*?)<%(=?)/g, (all, plain: string, eq?: string) => {
             let output = ";$output+=" + JSON.stringify(plain) + ";";
             if (eq) {
                 output += ";$output+=";
             }
             return output;
-        });
-        const func = new Function("$", `var $output="";${tpl}return $output;`);
-        return func(data);
+        })}return $output;`;
+        try {
+            return new Function("$", tpl)(data);
+        } catch (e) {
+            throw new Error("Error run tpl: " + tpl + ": " + e.message);
+        }
     }
 
     /**

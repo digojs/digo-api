@@ -48,7 +48,7 @@ export function <%= api.exportName %>(<% for(var key in api.params) { var param 
 <% if (api.cache) { %>
         cache: <%= JSON.stringify(api.cache) %>,
 <% } %>
-<% if (Object.keys(api.params).length) { %>
+<% if (api.params && Object.keys(api.params).length) { %>
         data: {
 <% for (var key in api.params) { %>
 <%      var param = api.params[key] %>

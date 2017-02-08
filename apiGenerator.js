@@ -99,7 +99,7 @@ class ApiGenerator {
             api.return = api.return || {};
             api.return.type = api.return.type || "void";
             if (api.return.mock === undefined) {
-                api.return.mock = this.getMock(api.return, api.name, data.merge != undefined ? this.readJSONIgnoreError(path.join(data.merge, data.mockDir, "./" + urlPath + ".json")) : undefined);
+                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined ? this.readJSONIgnoreError(path.join(data.mergeDir, "./" + urlPath + ".json")) : undefined);
             }
             this.addCategory(api.category).exportApis[key] = api;
         }
@@ -566,15 +566,20 @@ class ApiGenerator {
      * @param args 各关键字的替换值。
      */
     runTpl(tpl, data) {
-        tpl = ("%>" + tpl + "<%").replace(/\r?\n(<%[\s\S]*?%>)/g, "$1").replace(/%>([\s\S]*?)<%(=?)/g, (all, plain, eq) => {
+        tpl = `var $output="";${("%>" + tpl + "<%").replace(/\r?\n(<%[\s\S]*?%>)/g, "$1").replace(/%>([\s\S]*?)<%(=?)/g, (all, plain, eq) => {
             let output = ";$output+=" + JSON.stringify(plain) + ";";
             if (eq) {
                 output += ";$output+=";
             }
             return output;
-        });
-        const func = new Function("$", `var $output="";${tpl}return $output;`);
-        return func(data);
+        })}return $output;`;
+        try {
+            return new Function("$", tpl)(data);
+        }
+        catch (e) {
+            fs.appendFileSync("_d.json", JSON.stringify(data, undefined, 4));
+            throw new Error("Error run tpl: " + tpl + ": " + e.message);
+        }
     }
     /**
      * 获取指定名称的合法标识符。
