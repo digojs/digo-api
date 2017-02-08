@@ -5,19 +5,38 @@
             "description": "FFF",
             "params": {
                 "id": {
-                    "type": "AA"
+                    "description": "参数1",
+                    "type": "foo.AA"
                 },
                 "generic": {
+                    "description": "参数2",
                     "type": "foo.A<number>"
                 }
             },
             "return": {
-                "type": "result<foo.A<AA>[]>"
+                "type": "foo.Result<foo.A<foo.AA>[]>"
+            }
+        },
+        "/test2": {
+            "description": "FFF",
+            "params": {
+                "id": {
+                    "description": "参数1",
+                    "type": "foo.AA"
+                },
+                "generic": {
+                    "description": "参数2",
+                    "type": "foo.A<number>"
+                }
+            },
+            "return": {
+                "type": "foo.Result<foo.A<foo.AA>[]>"
             }
         }
     },
     "types": {
-        "result<T>": {
+        "foo.Result<T>": {
+            "description": "返回结果",
             "fields": {
                 "data": {
                     "description": "注1",
@@ -41,7 +60,7 @@
                 }
             }
         },
-        "AA": {
+        "foo.AA": {
             "type": "enum",
             "fields": {
                 "foo": {
