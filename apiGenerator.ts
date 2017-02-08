@@ -105,7 +105,7 @@ export interface ApiData {
     /**
      * 要合并的文件夹。
      */
-    merge?: string;
+    mergeDir?: string;
 
     /**
      * 成功回调的描述。
@@ -504,7 +504,7 @@ export class ApiGenerator {
             api.return = api.return || {};
             api.return.type = api.return.type || "void";
             if (api.return.mock === undefined) {
-                api.return.mock = this.getMock(api.return, api.name, data.merge != undefined ? this.readJSONIgnoreError(path.join(data.merge, data.mockDir, "./" + urlPath + ".json")) : undefined);
+                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined ? this.readJSONIgnoreError(path.join(data.mergeDir, "./" + urlPath + ".json")) : undefined);
             }
 
             this.addCategory(api.category).exportApis[key] = api;
