@@ -21,7 +21,6 @@ module.exports = exports = function API(file: digo.File, options: ApiData, done:
         file.content = files[key];
         result.add(file);
     }
-    debugger
     done(false);
 };
 

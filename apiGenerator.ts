@@ -823,7 +823,7 @@ export class ApiGenerator {
                     if (value.max != undefined) {
                         return `${caseType}`.repeat(Math.max(value.max - 1, 0));
                     }
-                    return `string_${caseType}`;
+                    return `${name}_${caseType}`;
                 case "boolean":
                     if (merge !== undefined) {
                         return !!merge;
