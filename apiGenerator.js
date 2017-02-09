@@ -112,8 +112,10 @@ class ApiGenerator {
         // 生成数据文档。
         for (const key in this.data.categories) {
             const category = this.data.categories[key];
+            let hasApi = false;
             for (const key2 in category.exportApis) {
                 const api = category.exportApis[key2];
+                hasApi = true;
                 api.exportName = this.addExportName(category, api.name);
                 for (const key3 in api.params) {
                     const param = api.params[key3];
@@ -125,17 +127,21 @@ class ApiGenerator {
                 api.return.exportDataType = this.getField(returnType, this.data.dataField) ? `${api.return.exportType}[${JSON.stringify(this.data.dataField)}]` : returnType.native === "void" ? "void" : "any";
                 api.return.exportMessageType = this.getField(returnType, this.data.messageField) ? `${api.return.exportType}[${JSON.stringify(this.data.messageField)}]` : returnType.native === "void" ? "void" : "any";
             }
-            result[path.join(this.data.apiDir, "./" + (!category.name || category.name === "/" ? "index" : category.name) + ".ts")] = this.runTpl(this.data.apiTpl, {
-                data: this.data,
-                category: category,
-                isIdentifier: this.isIdentifier,
-                isPropName: this.isPropName
-            });
+            if (hasApi) {
+                result[path.join(this.data.apiDir, "./" + (!category.name || category.name === "/" ? "index" : category.name) + ".ts")] = this.runTpl(this.data.apiTpl, {
+                    data: this.data,
+                    category: category,
+                    isIdentifier: this.isIdentifier,
+                    isPropName: this.isPropName
+                });
+            }
         }
         // 生成模拟数据。
         for (const key in this.data.apis) {
             const api = this.data.apis[key];
-            result[path.join(this.data.mockDir, "./" + api.url.replace(/[?#].*$/g, "") + ".json")] = JSON.stringify(api.return.mock, undefined, 4);
+            if (api.return.mock) {
+                result[path.join(this.data.mockDir, "./" + api.url.replace(/[?#].*$/g, "") + ".json")] = JSON.stringify(api.return.mock, undefined, 4);
+            }
         }
         // 生成接口文档。
         result[path.join(this.data.docDir, "index.html")] = this.runTpl(this.data.docTpl, this.data);
