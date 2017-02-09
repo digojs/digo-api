@@ -10,17 +10,7 @@ import * as path from "path";
 /**
  * 表示一个接口数据。
  */
-export interface ApiData {
-
-    /**
-     * 项目名称。
-     */
-    name?: string;
-
-    /**
-     * 项目描述。
-     */
-    description?: string;
+export interface ApiData extends NameInfo {
 
     /**
      * 版本号。
@@ -105,7 +95,7 @@ export interface ApiData {
     /**
      * 要合并的文件夹。
      */
-    mergeDir?: string;
+    mergeDir?: string | boolean;
 
     /**
      * 成功回调的描述。
@@ -442,7 +432,7 @@ export class ApiGenerator {
             const type = data.types[key];
 
             // 解析泛型定义：将 foo.A<T> -> foo.A<>
-            const match = /^(.*)\<([\w$,\s]+)\>$/.exec(key);
+            const match = /^(.*)<(.*)>$/.exec(key);
             if (match) {
                 type.genericParameters = match[2].split(/,\s*/);
                 delete data.types[key];
@@ -504,7 +494,7 @@ export class ApiGenerator {
             api.return = api.return || {};
             api.return.type = api.return.type || "void";
             if (api.return.mock === undefined) {
-                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined ? this.readJSONIgnoreError(path.join(data.mergeDir, "./" + urlPath + ".json")) : undefined);
+                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined && data.mergeDir != false ? this.readJSONIgnoreError(path.join(typeof data.mergeDir === "string" ? data.mergeDir : data.mockDir, "./" + urlPath + ".json")) : undefined);
             }
 
             this.addCategory(api.category).exportApis[key] = api;
@@ -998,11 +988,7 @@ export class ApiGenerator {
             }
             return output;
         })}return $output;`;
-        try {
-            return new Function("$", tpl)(data);
-        } catch (e) {
-            throw new Error("Error run tpl: " + tpl + ": " + e.message);
-        }
+        return new Function("$", tpl)(data);
     }
 
     /**

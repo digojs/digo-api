@@ -40,7 +40,7 @@ class ApiGenerator {
         for (const key in data.types) {
             const type = data.types[key];
             // 解析泛型定义：将 foo.A<T> -> foo.A<>
-            const match = /^(.*)\<([\w$,\s]+)\>$/.exec(key);
+            const match = /^(.*)<(.*)>$/.exec(key);
             if (match) {
                 type.genericParameters = match[2].split(/,\s*/);
                 delete data.types[key];
@@ -99,7 +99,7 @@ class ApiGenerator {
             api.return = api.return || {};
             api.return.type = api.return.type || "void";
             if (api.return.mock === undefined) {
-                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined ? this.readJSONIgnoreError(path.join(data.mergeDir, "./" + urlPath + ".json")) : undefined);
+                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined && data.mergeDir != false ? this.readJSONIgnoreError(path.join(typeof data.mergeDir === "string" ? data.mergeDir : data.mockDir, "./" + urlPath + ".json")) : undefined);
             }
             this.addCategory(api.category).exportApis[key] = api;
         }
@@ -573,12 +573,7 @@ class ApiGenerator {
             }
             return output;
         })}return $output;`;
-        try {
-            return new Function("$", tpl)(data);
-        }
-        catch (e) {
-            throw new Error("Error run tpl: " + tpl + ": " + e.message);
-        }
+        return new Function("$", tpl)(data);
     }
     /**
      * 获取指定名称的合法标识符。
