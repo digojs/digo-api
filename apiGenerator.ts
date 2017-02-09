@@ -396,7 +396,7 @@ export interface ValueInfo {
     /**
      * 数据校验类型。
      */
-    validate?: "url" | "email" | "phone" | "username" | "password" | "checkcode" | "money" | "address" | "idcard" | "passport" | "id" | "message" | "gps" | "json" | "age" | "datetime" | "date" | "time" | "integer" | "number" | "hash" | "chinese" | "pinyin" | "identifier" | "postcode" | "color" | "text" | "html";
+    validate?: "url" | "email" | "phone" | "username" | "password" | "checkcode" | "money" | "address" | "idcard" | "passport" | "id" | "message" | "gps" | "json" | "age" | "datetime" | "date" | "time" | "integer" | "number" | "hash" | "chinese" | "pinyin" | "identifier" | "postcode" | "color" | "text" | "html" | "page" | "pageSize" | "imei" | "code";
 
 }
 
@@ -678,6 +678,7 @@ export class ApiGenerator {
      * @return 返回生成的模拟数据。
      */
     private getMock(value: ValueInfo, name: string, merge?: any, caseType = 0, depth = 3) {
+        const type = this.getType(value.type);
         if (merge === undefined) {
             if (value.default !== undefined && caseType === 0) {
                 return value.default;
@@ -686,69 +687,19 @@ export class ApiGenerator {
                 return value.values[caseType % value.values.length];
             }
             if (value.validate) {
-                switch (value.validate) {
-                    case "id":
-                        return 10000 + caseType;
-                    case "email":
-                        return `test_${name}_${caseType}@test.com`;
-                    case "phone":
-                        return `1810000000${caseType}`;
-                    case "username":
-                        return `test_${name}_${caseType}`;
-                    case "password":
-                        return `test_${name}_${caseType}`;
-                    case "money":
-                        return 1000 + caseType;
-                    case "address":
-                        return `test_address_${name}_${caseType}`;
-                    case "idcard":
-                        return [`211200199907105612`, `130581200609164920`, `31010419820930652X`][caseType % 3];
-                    case "passport":
-                        return `331122316654${caseType}`;
-                    case "message":
-                        return `test_message_test_${name}_${caseType}`;
-                    case "gps":
-                        return `1000.${caseType},1000.${caseType}`;
-                    case "url":
-                        return `http://test.com/${caseType}`;
-                    case "checkcode":
-                        return `${100000 + caseType}`;
-                    case "json":
-                        return `{}`;
-                    case "age":
-                        return 10 + caseType;
-                    case "datetime":
-                        return `2000/01/0${caseType % 10} 00:00:0${caseType % 10}`;
-                    case "date":
-                        return `2000/01/0${caseType % 10}`;
-                    case "time":
-                        return `00:00:0${caseType % 10}`;
-                    case "integer":
-                        return `${caseType}`;
-                    case "number":
-                        return `${caseType}.${caseType}`;
-                    case "hash":
-                        return (10000 + caseType).toString(16);
-                    case "chinese":
-                        return "测试" + ["甲", "乙", "丙"][caseType % 3];
-                    case "pinyin":
-                        return "ce shi " + ["jia", "yi", "bin"][caseType % 3];
-                    case "identifier":
-                        return `test_identifier_${caseType}`;
-                    case "postcode":
-                        return `1001${caseType}`;
-                    case "color":
-                        return `#0${caseType}0${caseType}0${caseType}`;
-                    case "text":
-                        return `long long long long long long long long long long long long long long long long long long text ${name} ${caseType}`;
-                    case "html":
-                        return `test_<strong>${name}_${caseType}</strong>`;
-                    default:
-                        return `test_<${value.validate}_${name}_${caseType}`;
+                const result = this.getMockByValidate(value.validate, name, caseType);
+                if (result !== undefined) {
+                    return result;
+                }
+                return `test_<${value.validate}_${name}_${caseType}`;
+            }
+            if (type.native === "string" || type.native === "number") {
+                const result = this.getMockByValidate(name as any, name, caseType);
+                if (typeof result === type.native) {
+                    return result;
                 }
             }
         }
-        const type = this.getType(value.type);
         if (type.underlyingArray) {
             const itemValue = { type: type.underlyingArray };
             if (Array.isArray(merge)) {
@@ -888,6 +839,81 @@ export class ApiGenerator {
             obj[field.name] = this.getMock(field, key, merge && merge[field.name], ++caseType, depth - 1);
         }
         return obj;
+    }
+
+    /**
+     * 根据验证字段获取模拟数据。
+     * @param validate 要生成的验证字段。
+     * @param name 建议的名字。
+     * @param caseType 当前模拟的类型。
+     */
+    private getMockByValidate(validate: ValueInfo["validate"], name: string, caseType: number) {
+        switch (validate) {
+            case "id":
+                return 10000 + caseType;
+            case "money":
+                return 1000 + caseType;
+            case "age":
+                return 10 + caseType;
+            case "page":
+                return 10 + caseType;
+            case "pageSize":
+                return 20 + caseType;
+            case "code":
+                return 0;
+            case "email":
+                return `test_${name}_${caseType}@test.com`;
+            case "phone":
+                return `1810000000${caseType}`;
+            case "username":
+                return `test_${name}_${caseType}`;
+            case "password":
+                return `test_${name}_${caseType}`;
+            case "address":
+                return `test_address_${name}_${caseType}`;
+            case "idcard":
+                return [`211200199907105612`, `130581200609164920`, `31010419820930652X`][caseType % 3];
+            case "passport":
+                return `331122316654${caseType}`;
+            case "message":
+                return `test_message_test_${name}_${caseType}`;
+            case "gps":
+                return `1000.${caseType},1000.${caseType}`;
+            case "url":
+                return `http://test.com/${caseType}`;
+            case "checkcode":
+                return `${100000 + caseType}`;
+            case "json":
+                return `{}`;
+            case "datetime":
+                return `2000/01/0${caseType % 10} 00:00:0${caseType % 10}`;
+            case "date":
+                return `2000/01/0${caseType % 10}`;
+            case "time":
+                return `00:00:0${caseType % 10}`;
+            case "integer":
+                return `${caseType}`;
+            case "number":
+                return `${caseType}.${caseType}`;
+            case "hash":
+                return (10000 + caseType).toString(16);
+            case "chinese":
+                return "测试" + ["甲", "乙", "丙"][caseType % 3];
+            case "pinyin":
+                return "ce shi " + ["jia", "yi", "bin"][caseType % 3];
+            case "identifier":
+                return `test_identifier_${caseType}`;
+            case "postcode":
+                return `1001${caseType}`;
+            case "color":
+                return `#0${caseType}0${caseType}0${caseType}`;
+            case "imei":
+                return `100000${caseType}`;
+            case "text":
+                return `long long long long long long long long long long long long long long long long long long text ${name} ${caseType}`;
+            case "html":
+                return `test_<strong>${name}_${caseType}</strong>`;
+        }
     }
 
     /**
