@@ -1,5 +1,5 @@
 {
-  "name": "digo-tpl-js",
+  "name": "digo-api",
   "version": "0.0.1",
   "repository": "https://github.com/digojs/digo-api",
   "description": "digo 插件：生成 API 文档",
