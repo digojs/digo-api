@@ -494,7 +494,7 @@ export class ApiGenerator {
             api.return = api.return || {};
             api.return.type = api.return.type || "void";
             if (api.return.mock === undefined) {
-                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != undefined && data.mergeDir != false ? this.readJSONIgnoreError(path.join(typeof data.mergeDir === "string" ? data.mergeDir : data.mockDir, "./" + urlPath + ".json")) : undefined);
+                api.return.mock = this.getMock(api.return, api.name, data.mergeDir != false ? this.readJSONIgnoreError(path.join(typeof data.mergeDir === "string" ? data.mergeDir : data.mockDir, "./" + urlPath + ".json")) : undefined);
             }
 
             this.addCategory(api.category).exportApis[key] = api;
