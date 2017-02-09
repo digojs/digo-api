@@ -6822,15 +6822,30 @@
                         <% for (var key2 in category.exportApis) { %>
                         <%      var api = category.exportApis[key2]; %>
                         <div class="api-one">
-                            <h3 id="<%= key2 %>">API: <%= category.name === "/" ? "" : category.name %>/<%= api.name %></h3>
+                            <h3 id="<%= key2 %>"><%= api.method || "POST" %>: <%= category.name === "/" ? "" : category.name %>/<%= api.name %></h3>
+                            <p>
+                                <% if (api.deprecated) { %>
+                                <span class="label label-info">Deprecated<%= api.deprecated === true ? "" : " Since" + api.deprecated %></span>
+                                <% } %>
+                                <% if (api.created) { %>
+                                <span class="label label-info">Since <%= api.created %></span>
+                                <% } %>
+                                <% if (api.modified) { %>
+                                <span class="label label-info">Updated at <%= api.modified %></span>
+                                <% } %>
+                                <% if (api.contentType) { %>
+                                <span class="label label-info">Content-Type=<%= api.contentType %></span>
+                                <% } %>
+                            </p>
                             <% if (api.description) { %>
                             <p><%= api.description %></p>
                             <% } %>
+                            <h5>Request</h5>
                             <% if (api.params && Object.keys(api.params).length) { %>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-xs-2"><span class="label label-success">Request</span></th>
+                                        <th class="col-xs-2"><span class="label label-success">Request Parameter</span></th>
                                         <th class="col-xs-1">Type</th>
                                         <th class="col-xs-1">Required</th>
                                         <th class="col-xs-6">Description</th>
@@ -6860,7 +6875,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-xs-2"><span class="label label-success">Response</span></th>
+                                        <th class="col-xs-2"><span class="label label-success">Response Field</span></th>
                                         <th class="col-xs-1">Type</th>
                                         <th class="col-xs-9">Description</th>
                                     </tr>

@@ -546,6 +546,7 @@
 		},
 		"/dingding/shareInfo": {
 			"description": "轨迹钉钉分享查看",
+            "contentType": "application/json",
 			"method": "GET",
 			"params": {
 				"shareId": {
