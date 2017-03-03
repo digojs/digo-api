@@ -550,7 +550,12 @@
 			padding-right: 5px;
 			padding-left: 5px
 		}
-		
+		#slide_nav{
+	        position: fixed;
+	        top: 60px;
+	        height: 580px;
+	        overflow-y: scroll;
+	    }
 		dl {
 			margin-top: 0;
 			margin-bottom: 20px
