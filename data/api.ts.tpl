@@ -34,13 +34,13 @@ import { ajax } from "<%= $.data.ajaxModule %>";
  * @author <%= api.author %>
 <% } %>
  */
-export function <%= api.exportName %>(<% for(var key in api.params) { var param = api.params[key]; %><%= param.exportName %><%= param.optional ? "?" : "" %>: <%= param.exportType %>, <% } %>success?: (data: <%= api.return.exportDataType %>, response: <%= api.return.exportType %>, xhr: XMLHttpRequest) => void, error?: (message: <%= api.return.exportMessageType %>, response: <%= api.return.exportType %>, xhr: XMLHttpRequest) => void) {
-    ajax({
+export function <%= api.exportName %>(<% for(var key in api.params) { var param = api.params[key]; %><%= param.exportName %><%= param.optional ? "?" : "" %>: <%= param.exportType %>, <% } %>success?: (data: <%= api.return.exportDataType %>, response: <%= api.return.exportType %>, xhr: any) => void, error?: (message: <%= api.return.exportMessageType %>, response: <%= api.return.exportType %>, xhr: any) => void) {
+    return ajax({
 <% if (api.url) { %>
         url: <%= JSON.stringify(api.url) %>,
 <% } %>
 <% if (api.method) { %>
-        method: <%= JSON.stringify(api.method) %>,
+        type: <%= JSON.stringify(api.method) %>,
 <% } %>
 <% if (api.contentType) { %>
         contentType: <%= JSON.stringify(api.contentType) %>,
