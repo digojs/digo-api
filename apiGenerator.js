@@ -1,12 +1,5 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @file 接口生成器
  * @author xuld@vip.qq.com
@@ -188,12 +181,12 @@ class ApiGenerator {
                 const genericName = fullName.substr(0, lt) + "<" + ",".repeat(argsArray.length - 1) + ">";
                 const underlyingType = this.data.types[genericName];
                 if (underlyingType && underlyingType.genericParameters) {
-                    type = __assign({}, underlyingType, { underlyingGeneric: genericName, genericArguments: argsArray, fields: {} });
+                    type = Object.assign({}, underlyingType, { underlyingGeneric: genericName, genericArguments: argsArray, fields: {} });
                     if (type.extends) {
                         type.extends = this.replaceGenericType(underlyingType.genericParameters, argsArray, type.extends);
                     }
                     for (const key in underlyingType.fields) {
-                        type.fields[key] = __assign({}, underlyingType.fields[key], { type: this.replaceGenericType(underlyingType.genericParameters, argsArray, underlyingType.fields[key].type) });
+                        type.fields[key] = Object.assign({}, underlyingType.fields[key], { type: this.replaceGenericType(underlyingType.genericParameters, argsArray, underlyingType.fields[key].type) });
                     }
                 }
                 else {
@@ -248,7 +241,7 @@ class ApiGenerator {
      * @return 返回字段。
      */
     getAllFields(type) {
-        return __assign({}, (type.extends ? this.getAllFields(this.getType(type.extends)) : {}), type.fields);
+        return Object.assign({}, (type.extends ? this.getAllFields(this.getType(type.extends)) : {}), type.fields);
     }
     /**
      * 生成指定类型的模拟数据。
@@ -274,6 +267,10 @@ class ApiGenerator {
                     return result;
                 }
                 return `test_<${value.validate}_${name}_${caseType}`;
+            }
+            const result = this.getMockByValidate(name, name, caseType);
+            if (result !== undefined) {
+                return result;
             }
             if (type.native === "string" || type.native === "number") {
                 const result = this.getMockByValidate(name, name, caseType);

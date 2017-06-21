@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @file 根据 API 文档生成 JS api
  * @author xuld@vip.qq.com
