@@ -693,6 +693,10 @@ export class ApiGenerator {
                 }
                 return `test_<${value.validate}_${name}_${caseType}`;
             }
+            const result = this.getMockByValidate(name as any, name, caseType);
+            if (result !== undefined) {
+                return result;
+            }
             if (type.native === "string" || type.native === "number") {
                 const result = this.getMockByValidate(name as any, name, caseType);
                 if (typeof result === type.native) {
