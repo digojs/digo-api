@@ -10,7 +10,6 @@ $ npm install digo-api -g
 
 用法
 -------------------------------
-### 编译 ejs 模板为 JS 函数
 ```js
 digo.src("api.json").pipe("digo-api");
 ```

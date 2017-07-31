@@ -11,9 +11,11 @@
     "author": "xuld <xuld@vip.qq.com>",
     "devDependencies": {
         "@types/node": "latest",
-        "digo": "latest",
         "typescript": "next",
         "typescript-json-schema": "latest"
+    },
+    "dependencies": {
+        "digo": "latest"
     },
     "scripts": {
         "build": "tsc --target es2015 --module commonjs -d src/api.ts src/resolvor.ts src/generator.ts src/index.ts --outDir lib",
