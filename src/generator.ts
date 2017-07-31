@@ -245,7 +245,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
         };
         const getType = (value: ValueInfo, typeParameters?: string[]) => {
             if (value.enum) {
-                return value.enum.join(" | ");
+                return value.enum.map(x => JSON.stringify(x)).join(" | ");
             }
             return addExportType(value.type, typeParameters);
         };
