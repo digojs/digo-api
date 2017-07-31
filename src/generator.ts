@@ -24,17 +24,17 @@ export function generate(api: string, options: GenerateOptions, writeFile: (path
 
     // 生成模拟数据。
     const mockDatas = {};
-    if (options.mockDir) {
+    if (options.mock) {
         generateMocks(resolver, mockDatas, options, writeFile);
     }
 
     // 生成 TS-SDK。
-    if (options.apiDir) {
+    if (options.ts) {
         generateTS(resolver, mockDatas, options, writeFile);
     }
 
     // 生成文档。
-    if (options.docDir) {
+    if (options.doc) {
         generateDoc(resolver, mockDatas, options, writeFile);
     }
 
@@ -67,7 +67,7 @@ export interface GenerateOptions {
     /**
      * 模拟数据文件夹地址。
      */
-    mockDir?: string;
+    mock?: string;
 
     /**
      * 是否合并已有的模拟数据。
@@ -87,7 +87,7 @@ export interface GenerateOptions {
     /**
      * 接口文件夹地址。
      */
-    apiDir?: string;
+    ts?: string;
 
     /**
      * 设置 AJAX 模块地址。
@@ -107,17 +107,17 @@ export interface GenerateOptions {
     /**
      * 设置数据字段。
      */
-    dataField?: string;
+    dataProperty?: string;
 
     /**
      * 设置信息字段。
      */
-    messageField?: string;
+    messageProperty?: string;
 
     /**
      * 生成的文档文件名。
      */
-    docDir?: string;
+    doc?: string;
 
     /**
      * 自定义生成函数。
@@ -153,7 +153,7 @@ function generateMocks(resolver: ApiResovler, mockDatas: { [key: string]: any; }
     const apis = resolver.getApis();
     for (const key in apis) {
         const api = apis[key];
-        const path = digo.resolvePath(options.mockDir, toSafePath(api.name) + ".json");
+        const path = digo.resolvePath(options.mock, toSafePath(api.name) + ".json");
         const response = api.responses[0];
         if (response.type != "any") {
             const mock = mockDatas[api.name] = resolver.getMock(response, undefined, options.merge === false ? undefined : parseJSON(digo.bufferToString(digo.readFileIf(path))), options.maxDepth, options.mockPrefix);
@@ -279,7 +279,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             }
             const returnType = resolver.getType(api.responses[0].type);
             const returnTypeExport = addExportType(api.responses[0].type);
-            apis += `success?: (data: ${options.dataField && resolver.getProperty(returnType, options.dataField) ? `${returnTypeExport}["${options.dataField}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, error?: (message: ${options.messageField && resolver.getProperty(returnType, options.messageField) ? `${returnTypeExport}["${options.messageField}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void) {\n`;
+            apis += `success?: (data: ${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, error?: (message: ${options.messageProperty && resolver.getProperty(returnType, options.messageProperty) ? `${returnTypeExport}["${options.messageProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void) {\n`;
             apis += `    return ajax({\n`;
             apis += `        url: ${JSON.stringify(api.name)},\n`;
             if (api.method) {
@@ -328,7 +328,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             code += apis;
             code += allTypes.join("");
 
-            writeFile(digo.resolvePath(options.apiDir, toSafePath(category.name) + ".ts"), code);
+            writeFile(digo.resolvePath(options.ts, toSafePath(category.name) + ".ts"), code);
         }
     }
 }
@@ -495,7 +495,7 @@ function generateDoc(resolver: ApiResovler, mockDatas: { [key: string]: any; }, 
 
     const content = tpl.replace(/\$([a-z]+)/g, (all, key) => data[key] || "");
 
-    writeFile(digo.resolvePath(options.docDir), content);
+    writeFile(digo.resolvePath(options.doc), content);
 }
 
 function getLabel(method: string, reverse?: boolean) {

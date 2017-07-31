@@ -10,7 +10,8 @@ import { generate, GenerateOptions } from "./generator";
  */
 module.exports = exports = function API(file: digo.File, options: GenerateOptions, done: (add?: boolean) => void, result: digo.FileList) {
     // 兼容 v0.0.2 接口
-    options.merge = !!(options as any).mergeDir;
+    upgradeV1ToV2(options);
+
     generate(file.content, options, (path, content) => {
         const output = new digo.File();
         output.path = path;
@@ -19,3 +20,22 @@ module.exports = exports = function API(file: digo.File, options: GenerateOption
     });
     done(false);
 };
+
+function upgradeV1ToV2(options: GenerateOptions) {
+    if ((options as any).apiDir) {
+        options.ts = (options as any).apiDir + "/index.html";
+    }
+    if ((options as any).docDir) {
+        options.doc = (options as any).docDir;
+    }
+    if ((options as any).mockDir) {
+        options.mock = (options as any).mockDir;
+    }
+    if ((options as any).dataField) {
+        options.dataProperty = (options as any).dataField;
+    }
+    if ((options as any).messageField) {
+        options.messageProperty = (options as any).messageField;
+    }
+    options.merge = !!(options as any).mergeDir;
+}
