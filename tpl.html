@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>API$title</title>
+	<style>
+		html {
+			font-size: 14px;
+		}
+
+		body {
+			margin: 0;
+			color: #5e6d82;
+			height: 100%;
+			font-family: "Helvetica Neue For Number", apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-size-adjust: 100%;
+			line-height: 1.75;
+			background: #fbfbfb;
+		}
+
+		 ::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;
+		}
+
+		 ::-webkit-scrollbar-track {
+			background-color: #f5f5f5;
+		}
+
+		 ::-webkit-scrollbar-thumb {
+			background-color: #aaa;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0;
+			font-weight: 500;
+			color: #3b4151;
+			padding: .5rem;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			border-bottom: 1px solid rgba(59, 65, 81, .3);
+			cursor: pointer;
+		}
+
+		h2:hover {
+			background: #f0f0f0;
+		}
+
+		h3 {
+			background: #f9fafc;
+			border-radius: 5px 5px 0 0;
+			font-size: 1.2rem;
+			cursor: pointer;
+		}
+
+		h4, h5, h6 {
+			padding: 0;
+		}
+
+		a {
+			color: #4078c0;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		small {
+			font-size: 1rem;
+			font-weight: 400;
+			margin-left: .75rem;
+			color: #5e6d82;
+		}
+
+		code {
+			font-family: Menlo, Monaco, Consolas, Courier, "Helvetica Neue For Number", apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", monospace;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		.api-label {
+			display: inline-block;
+			width: 3.2em;
+			text-align: center;
+			margin-right: .5rem;
+			font-size: .8rem;
+			font-weight: bolder;
+			color: #fff;
+			border-radius: 4px;
+			line-height: 1rem;
+			padding: .1rem;
+			cursor: inherit;
+		}
+
+		.api-label-success {
+			background: #57B382;
+		}
+
+		.api-label-warning {
+			background: #F47023;
+		}
+
+		.api-label-info {
+			background: #4A90E2;
+		}
+
+		.api-label-error {
+			background: red;
+		}
+
+		.api-label-reverse {
+			background: transparent;
+		}
+
+		.api-label-reverse.api-label-success {
+			color: #57B382;
+		}
+
+		.api-label-reverse.api-label-warning {
+			color: #F47023;
+		}
+
+		.api-label-reverse.api-label-info {
+			color: #4A90E2;
+		}
+
+		.api-label-reverse.api-label-error {
+			color: red;
+		}
+
+		.api-panel {
+			border: 1px solid #eaeefb;
+			margin-top: 1rem;
+			border-radius: 5px;
+			box-shadow: 0 0 3px rgba(0, 0, 0, .05);
+			background: #fff;
+		}
+
+		.api-panel-body {
+			border-top: 1px solid #eaeefb;
+			padding: 1rem;
+		}
+
+		.api-panel-col h3 {
+			border-radius: 5px;
+		}
+
+		.api-panel-col .api-panel-body {
+			display: none;
+		}
+
+		.api-code {
+			line-height: 1.5;
+			font-size: .95rem;
+			padding: .75rem 1rem;
+			background-color: #f9fafc;
+			border: 1px solid #eaeefb;
+			margin: 1rem 0;
+			border-radius: 4px;
+			-webkit-font-smoothing: auto;
+			white-space: pre-wrap;
+		}
+
+		.api-code-keyword {
+			color: #3182bd;
+		}
+
+		.api-code-symbol {
+			color: #756bb1;
+		}
+
+		.api-code-string {
+			color: #e6550d;
+		}
+
+		.api-code-number {
+			color: #31a354;
+		}
+
+		.api-code-comment {
+			color: #636363;
+		}
+
+		.api-code-deletion {
+			color: #88f;
+		}
+
+		.api-code code {
+			display: block;
+			outline: 0;
+		}
+
+		.api-table {
+			margin: 1rem 0;
+			border-collapse: collapse;
+		}
+
+		.api-table td {
+			padding: .25rem .5rem;
+		}
+
+		.api-table th {
+			text-align: left;
+			border-top: 1px solid #eaeefb;
+			background-color: #eff2f7;
+			white-space: nowrap;
+			padding: .5rem;
+			font-weight: 600;
+		}
+
+		.api-table tr:hover td {
+			background: #fbfdff;
+		}
+
+		.api-code:last-child, .api-table:last-child {
+			margin-bottom: 0;
+		}
+
+		.api-send {
+			background: #0275d8;
+			border: none;
+			cursor: pointer;
+			border-radius: 3px;
+			text-align: center;
+			color: #fff;
+			line-height: 1rem;
+			padding: .45rem 0;
+			touch-action: manipulation;
+			text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+			width: 5rem;
+			outline: 0;
+			font-weight: 400;
+			margin-top: -.5rem;
+			margin-bottom: 1rem;
+		}
+
+		.api-send:hover, .api-send:focus {
+			background: #025aa5;
+		}
+
+		.api-send-abort {
+			background: #faa732 !important;
+		}
+
+		.api-required {
+			color: red;
+			margin-left: .2rem;
+		}
+
+		#api_version {
+			float: right;
+		}
+
+		#api_sidebar {
+			position: fixed;
+			width: 25%;
+			height: 100%;
+			background: #263238;
+			color: #82959F;
+			box-sizing: border-box;
+			overflow-y: auto;
+		}
+
+		#api_sidebar ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		#api_sidebar a {
+			display: block;
+			overflow: hidden;
+			padding: 1rem;
+			color: #82959F;
+			text-decoration: none;
+			background: #1D2225;
+			white-space: pre;
+			text-overflow: ellipsis;
+			line-height: 1.5rem;
+		}
+
+		#api_sidebar ul ul a {
+			background: #263238;
+			padding: .75rem 1rem;
+		}
+
+		#api_sidebar ul ul a:hover {
+			color: #fff;
+			background-color: #50585d;
+		}
+
+		#api_main {
+			margin-left: 25%;
+		}
+
+		#api_header {
+			background: #f0f0f0;
+			padding: .65rem 1rem;
+		}
+
+		#api_header input {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			background: #fff;
+			padding: .5rem;
+			outline: 0;
+			width: 70%;
+			margin-left: 1rem;
+		}
+
+		#api_header input:focus {
+			border-color: rgba(82, 168, 236, 0.8);
+		}
+
+		#api_body {
+			padding: 1rem;
+		}
+
+		@media (max-width:680px) {
+			#api_sidebar {
+				display: none;
+			}
+
+			#api_main {
+				margin: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<aside id="api_sidebar">
+		<ul>
+			$side
+		</ul>
+	</aside>
+	<div id="api_main">
+		<header id="api_header">
+			<span id="api_version">Version: $version</span>
+			<label>Server URL:</label>
+			<input type="text" value="$url" id="url">
+		</header>
+		<article id="api_body">
+			$body
+		</article>
+	</div>
+	<script>
+		function tab(code, event) {
+			if (event.keyCode === 9) {
+				event.preventDefault();
+				code.ownerDocument.execCommand('insertHTML', false, "    ");
+			}
+		}
+
+		function togglePanel(header) {
+			header.parentNode.className = header.parentNode.className == "api-panel" ? "api-panel api-panel-col" : "api-panel";
+		}
+
+		function toggleSection(header) {
+			header.nextElementSibling.style.display = header.nextElementSibling.style.display ? "" : "none";
+		}
+
+		function send(send, url, method, contentType) {
+			if (!send._reset) {
+				send._reset = function() {
+					delete send._xhr;
+					clearInterval(send._timer);
+					send.className = "api-send";
+					send.innerHTML = "Send";
+				};
+			}
+			if (send._xhr) {
+				send._xhr.abort();
+				send._reset();
+				return;
+			}
+			var req = send.previousElementSibling && send.previousElementSibling.firstElementChild;
+			var res = send.parentNode.lastElementChild;
+			if (res === send) {
+				var div = document.createElement("div");
+				div.innerHTML = '<h4>Response</h4><pre class="api-code"><code contenteditable="true" spellcheck="false" onkeydown="tab(this, event)"></code></pre>';
+				res = div.lastChild.firstChild;
+				send.parentNode.insertBefore(div.lastChild, send.nextElementSibling);
+				send.parentNode.insertBefore(div.lastChild, send.nextElementSibling);
+			} else {
+				res = res.firstElementChild;
+			}
+			var data = req ? req.textContent.replace(/\/\/.*$/gm, "") : null;
+			if (contentType === "application/json") {
+				try {
+					data = JSON.parse(data);
+				} catch (e) {
+					res.textContent = "// Error: Cannot parse request parameters: " + e.message;
+					return;
+				}
+			}
+			var time = 1;
+			send.className = "api-send api-send-abort";
+			send.innerHTML = "Abort (" + time++ + "s)";
+			send._timer = setInterval(() => {
+				send.innerHTML = "Abort (" + time++ + "s)";
+			}, 1000);
+			send._xhr = ajax({
+				url: document.getElementById("url").value + url,
+				type: method || "POST",
+				data: data,
+				contentType: contentType,
+				complete: function(status, statusText, data) {
+					send._reset();
+					if (status !== 200) {
+						if (status === 0) {
+							res.textContent = "// Server has no response. (Cross domain issue?)";
+						} else {
+							res.textContent = "// " + status + " - " + statusText + "\n" + data;
+						}
+					} else {
+						if (contentType === "application/json") {
+							try {
+								data = JSON.parse(data);
+							} catch (e) {
+								res.textContent = "// Error: Cannot parse response data: " + e.message;
+								return;
+							}
+							data = JSON.stringify(data, undefined, 4);
+						}
+						res.textContent = data;
+					}
+				}
+			});
+		}
+
+		function ajax(options) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					xhr.onreadystatechange = null;
+					options.complete(xhr.status, xhr.statusText, xhr.responseText);
+				}
+			};
+			xhr.withCredentials = true;
+			xhr.open(options.type, options.url, true);
+			if (options.contentType) {
+				xhr.setRequestHeader("Content-Type", options.contentType);
+			}
+			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+			xhr.send(options.data);
+			return xhr;
+		}
+	</script>
+
+</body>
+
+</html>

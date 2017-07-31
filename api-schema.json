@@ -1,0 +1,456 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {
+        "Api": {
+            "description": "表示一个接口。",
+            "properties": {
+                "author": {
+                    "description": "作者。",
+                    "type": "string"
+                },
+                "cache": {
+                    "description": "接口缓存的毫秒数。如果为 -1 表示不缓存。如果为 0 说明是会话缓存。",
+                    "type": "number"
+                },
+                "category": {
+                    "description": "所属分类。",
+                    "type": "string"
+                },
+                "contentType": {
+                    "description": "请求内容类型(Content-Type)。如 \"application/json\"。",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "创建版本号。",
+                    "type": "string"
+                },
+                "deprecated": {
+                    "description": "开始被否定的版本号或标记是否被否定。",
+                    "type": [
+                        "string",
+                        "boolean"
+                    ]
+                },
+                "method": {
+                    "description": "请求谓词(HTTP Method)。如 \"GET\"。",
+                    "type": "string"
+                },
+                "modified": {
+                    "description": "最后更新版本号。",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称。",
+                    "type": "string"
+                },
+                "parameters": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/RequestParameter"
+                    },
+                    "description": "所有参数列表。",
+                    "type": "object"
+                },
+                "responses": {
+                    "description": "响应结果。",
+                    "items": {
+                        "$ref": "#/definitions/Response"
+                    },
+                    "type": "array"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Category": {
+            "description": "表示一个分类。",
+            "properties": {
+                "author": {
+                    "description": "作者。",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "创建版本号。",
+                    "type": "string"
+                },
+                "deprecated": {
+                    "description": "开始被否定的版本号或标记是否被否定。",
+                    "type": [
+                        "string",
+                        "boolean"
+                    ]
+                },
+                "modified": {
+                    "description": "最后更新版本号。",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称。",
+                    "type": "string"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "NativeType": {
+            "description": "表示内置类型。",
+            "enum": [
+                "any",
+                "boolean",
+                "number",
+                "string"
+            ],
+            "type": "string"
+        },
+        "Property": {
+            "description": "表示一个属性。",
+            "properties": {
+                "author": {
+                    "description": "作者。",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "创建版本号。",
+                    "type": "string"
+                },
+                "default": {
+                    "description": "默认值。"
+                },
+                "deprecated": {
+                    "description": "开始被否定的版本号或标记是否被否定。",
+                    "type": [
+                        "string",
+                        "boolean"
+                    ]
+                },
+                "enum": {
+                    "description": "所有的可能值。",
+                    "items": {
+                    },
+                    "type": "array"
+                },
+                "max": {
+                    "description": "最大值。如果是字符串类型则表示最大长度。",
+                    "type": "number"
+                },
+                "min": {
+                    "description": "最小值。如果是字符串类型则表示最小长度。",
+                    "type": "number"
+                },
+                "mock": {
+                    "description": "模拟数据。"
+                },
+                "modified": {
+                    "description": "最后更新版本号。",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称。",
+                    "type": "string"
+                },
+                "notBlank": {
+                    "description": "是否允许空白。",
+                    "type": "boolean"
+                },
+                "notEmpty": {
+                    "description": "是否允许空。",
+                    "type": "boolean"
+                },
+                "optional": {
+                    "description": "是否可选。",
+                    "type": "boolean"
+                },
+                "pattern": {
+                    "description": "应匹配的正则表达式。",
+                    "type": "string"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型。",
+                    "type": "string"
+                },
+                "validate": {
+                    "description": "内置验证字段。",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "RequestParameter": {
+            "description": "表示一个请求参数。",
+            "properties": {
+                "author": {
+                    "description": "作者。",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "创建版本号。",
+                    "type": "string"
+                },
+                "default": {
+                    "description": "默认值。"
+                },
+                "deprecated": {
+                    "description": "开始被否定的版本号或标记是否被否定。",
+                    "type": [
+                        "string",
+                        "boolean"
+                    ]
+                },
+                "enum": {
+                    "description": "所有的可能值。",
+                    "items": {
+                    },
+                    "type": "array"
+                },
+                "max": {
+                    "description": "最大值。如果是字符串类型则表示最大长度。",
+                    "type": "number"
+                },
+                "method": {
+                    "description": "请求谓词(HTTP Method)。如 \"GET\"。",
+                    "type": "string"
+                },
+                "min": {
+                    "description": "最小值。如果是字符串类型则表示最小长度。",
+                    "type": "number"
+                },
+                "mock": {
+                    "description": "模拟数据。"
+                },
+                "modified": {
+                    "description": "最后更新版本号。",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称。",
+                    "type": "string"
+                },
+                "notBlank": {
+                    "description": "是否允许空白。",
+                    "type": "boolean"
+                },
+                "notEmpty": {
+                    "description": "是否允许空。",
+                    "type": "boolean"
+                },
+                "optional": {
+                    "description": "是否可选。",
+                    "type": "boolean"
+                },
+                "pattern": {
+                    "description": "应匹配的正则表达式。",
+                    "type": "string"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型。",
+                    "type": "string"
+                },
+                "validate": {
+                    "description": "内置验证字段。",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Response": {
+            "description": "表示一个响应。",
+            "properties": {
+                "contentType": {
+                    "description": "响应内容类型(Content-Type)。如 \"application/json\"。",
+                    "type": "string"
+                },
+                "default": {
+                    "description": "默认值。"
+                },
+                "enum": {
+                    "description": "所有的可能值。",
+                    "items": {
+                    },
+                    "type": "array"
+                },
+                "max": {
+                    "description": "最大值。如果是字符串类型则表示最大长度。",
+                    "type": "number"
+                },
+                "min": {
+                    "description": "最小值。如果是字符串类型则表示最小长度。",
+                    "type": "number"
+                },
+                "mock": {
+                    "description": "模拟数据。"
+                },
+                "notBlank": {
+                    "description": "是否允许空白。",
+                    "type": "boolean"
+                },
+                "notEmpty": {
+                    "description": "是否允许空。",
+                    "type": "boolean"
+                },
+                "optional": {
+                    "description": "是否可选。",
+                    "type": "boolean"
+                },
+                "pattern": {
+                    "description": "应匹配的正则表达式。",
+                    "type": "string"
+                },
+                "statusCode": {
+                    "description": "响应的状态码。",
+                    "type": "number"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型。",
+                    "type": "string"
+                },
+                "validate": {
+                    "description": "内置验证字段。",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Type": {
+            "description": "表示一个类型。",
+            "properties": {
+                "author": {
+                    "description": "作者。",
+                    "type": "string"
+                },
+                "created": {
+                    "description": "创建版本号。",
+                    "type": "string"
+                },
+                "deprecated": {
+                    "description": "开始被否定的版本号或标记是否被否定。",
+                    "type": [
+                        "string",
+                        "boolean"
+                    ]
+                },
+                "extends": {
+                    "description": "继承的类型。",
+                    "type": "string"
+                },
+                "memberType": {
+                    "description": "成员类型。",
+                    "enum": [
+                        "class",
+                        "enum"
+                    ],
+                    "type": "string"
+                },
+                "modified": {
+                    "description": "最后更新版本号。",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称。",
+                    "type": "string"
+                },
+                "properties": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Property"
+                    },
+                    "description": "所有字段信息。",
+                    "type": "object"
+                },
+                "summary": {
+                    "description": "概述。",
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/NativeType",
+                    "description": "当前类型映射的内置类型。"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "description": "表示一个接口文件。",
+    "properties": {
+        "apis": {
+            "additionalProperties": {
+                "$ref": "#/definitions/Api"
+            },
+            "description": "所有接口列表。",
+            "type": "object"
+        },
+        "author": {
+            "description": "作者。",
+            "type": "string"
+        },
+        "categories": {
+            "additionalProperties": {
+                "$ref": "#/definitions/Category"
+            },
+            "description": "所有分类列表。",
+            "type": "object"
+        },
+        "copyright": {
+            "description": "版权声明。",
+            "type": "string"
+        },
+        "created": {
+            "description": "创建版本号。",
+            "type": "string"
+        },
+        "deprecated": {
+            "description": "开始被否定的版本号或标记是否被否定。",
+            "type": [
+                "string",
+                "boolean"
+            ]
+        },
+        "license": {
+            "description": "开源协议。",
+            "type": "string"
+        },
+        "modified": {
+            "description": "最后更新版本号。",
+            "type": "string"
+        },
+        "name": {
+            "description": "名称。",
+            "type": "string"
+        },
+        "summary": {
+            "description": "概述。",
+            "type": "string"
+        },
+        "types": {
+            "additionalProperties": {
+                "$ref": "#/definitions/Type"
+            },
+            "description": "所有类型列表。",
+            "type": "object"
+        },
+        "url": {
+            "description": "服务根地址。",
+            "type": "string"
+        },
+        "version": {
+            "description": "版本号。",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

@@ -1,25 +1,28 @@
 {
-  "name": "digo-api",
-  "version": "0.0.2",
-  "repository": "https://github.com/digojs/digo-api",
-  "description": "digo 插件：生成 API 文档",
-  "keywords": [
-    "digo plugin",
-    "api"
-  ],
-  "license": "MIT",
-  "author": "xuld <xuld@vip.qq.com>",
-  "devDependencies": {
-    "@types/node": "latest",
-    "digo": "latest",
-    "typescript": "next"
-  },
-  "scripts": {
-    "build": "tsc --target es2015 --module commonjs index.ts apiGenerator.ts"
-  },
-  "files": [
-    "index.js",
-    "apiGenerator.js",
-    "data/*"
-  ]
+    "name": "digo-api",
+    "version": "0.0.2",
+    "repository": "https://github.com/digojs/digo-api",
+    "description": "digo 插件：生成 API 文档",
+    "keywords": [
+        "digo plugin",
+        "api"
+    ],
+    "license": "MIT",
+    "author": "xuld <xuld@vip.qq.com>",
+    "devDependencies": {
+        "@types/node": "latest",
+        "digo": "latest",
+        "typescript": "next",
+        "typescript-json-schema": "latest"
+    },
+    "scripts": {
+        "build": "tsc --target es2015 --module commonjs -d src/api.ts src/resolvor.ts src/generator.ts src/index.ts --outDir lib",
+        "schema": "typescript-json-schema src/api.ts ApiFile > api-schema.json"
+    },
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
+    "files": [
+        "lib/*",
+        "tpl.html"
+    ]
 }
