@@ -395,11 +395,12 @@
 			var data = req ? req.textContent.replace(/\/\/.*$/gm, "") : null;
 			if (contentType === "application/json") {
 				try {
-					data = JSON.parse(data);
+					data = eval("(" + data + ")");
 				} catch (e) {
 					res.textContent = "// Error: Cannot parse request parameters: " + e.message;
 					return;
 				}
+				data = JSON.stringify(data);
 			}
 			var time = 1;
 			send.className = "api-send api-send-abort";
@@ -415,10 +416,11 @@
 				complete: function(status, statusText, data) {
 					send._reset();
 					if (status !== 200) {
+						res.textContent = "// " + this.type + " " + this.url + "\n";
 						if (status === 0) {
-							res.textContent = "// Server has no response. (Cross domain issue?)";
+							res.textContent += "// Cannot connect to server. (Cross domain issue?)";
 						} else {
-							res.textContent = "// " + status + " - " + statusText + "\n" + data;
+							res.textContent += "// " + status + " - " + statusText + "\n" + data;
 						}
 					} else {
 						if (contentType === "application/json") {

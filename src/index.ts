@@ -23,10 +23,10 @@ module.exports = exports = function API(file: digo.File, options: GenerateOption
 
 function upgradeV1ToV2(options: GenerateOptions) {
     if ((options as any).apiDir) {
-        options.ts = (options as any).apiDir + "/index.html";
+        options.ts = (options as any).apiDir;
     }
     if ((options as any).docDir) {
-        options.doc = (options as any).docDir;
+        options.doc = (options as any).docDir + "/index.html";
     }
     if ((options as any).mockDir) {
         options.mock = (options as any).mockDir;
