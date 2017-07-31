@@ -453,6 +453,13 @@
 			xhr.send(options.data);
 			return xhr;
 		}
+
+		if (localStorage.api_url) {
+			document.getElementById("url").value = localStorage.api_url;
+		}
+		document.getElementById("url").onchange = function() {
+			localStorage.api_url = document.getElementById("url").value;
+		};
 	</script>
 
 </body>

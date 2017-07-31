@@ -9,6 +9,8 @@ import { generate, GenerateOptions } from "./generator";
  * @param result 结果列表。
  */
 module.exports = exports = function API(file: digo.File, options: GenerateOptions, done: (add?: boolean) => void, result: digo.FileList) {
+    // 兼容 v0.0.2 接口
+    options.merge = !!(options as any).mergeDir;
     generate(file.content, options, (path, content) => {
         const output = new digo.File();
         output.path = path;
