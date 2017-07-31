@@ -431,6 +431,10 @@
 								return;
 							}
 							data = JSON.stringify(data, undefined, 4);
+						} else {
+							try {
+								data = JSON.stringify(JSON.parse(data), undefined, 4);
+							} catch (e) {}
 						}
 						res.textContent = data;
 					}
