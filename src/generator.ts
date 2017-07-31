@@ -321,7 +321,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             code += ` */\n`;
 
             if (options.ajaxModule) {
-                code += `import { ajax } from "${options.ajaxModule}\n`;
+                code += `import { ajax } from "${options.ajaxModule}";\n`;
             }
             code += `\n`;
 
