@@ -533,7 +533,7 @@ function createCode(resolver: ApiResovler, data: any, type: ResolvedType, commen
             currentCharCount = part.data;
         } else if (part.type === "comment") {
             if (part.data) {
-                html += `${" ".repeat(currentCharCount < wrap ? wrap - currentCharCount : currentCharCount < wrap + 10 ? wrap - currentCharCount + 10 : currentCharCount < wrap + 20 ? wrap - currentCharCount + 20 : 1)} <span class="api-code-${part.type}">// ${part.data}</span>`;
+                html += `${" ".repeat(currentCharCount < wrap ? wrap - currentCharCount : currentCharCount < wrap + 10 ? wrap - currentCharCount + 10 : currentCharCount < wrap + 20 ? wrap - currentCharCount + 20 : 1)} <span class="api-code-${part.type}">// ${part.data.replace(/\n/g, "<br>")}</span>`;
             }
         } else {
             html += `<span class="api-code-${part.type}">${digo.encodeHTML(part.data)}</span>`;
