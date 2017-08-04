@@ -200,11 +200,6 @@ export interface ValueInfo {
     type?: string;
 
     /**
-     * 内置验证字段。
-     */
-    validate?: string;
-
-    /**
      * 是否可选。
      */
     optional?: boolean;
