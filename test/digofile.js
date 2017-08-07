@@ -1,6 +1,6 @@
 ﻿var digo = require("digo");
 
-exports.default = function () {
+exports.default = exports.api = function () {
     digo.src("fixtures/*.json").pipe("../", {
         mock: "mock",
         ts: "lib",

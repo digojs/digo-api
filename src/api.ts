@@ -254,4 +254,4 @@ export type Version = string;
 /**
  * 表示内置类型。
  */
-export type NativeType = "string" | "number" | "boolean" | "any";
+export type NativeType = "string" | "number" | "boolean" | "integer" | "date" | "object" | "void";

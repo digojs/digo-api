@@ -57,7 +57,7 @@ export class ApiResovler {
 
             api.responses = api.responses || [];
             if (!api.responses.length) {
-                api.responses.push({ type: "any" });
+                api.responses.push({ type: "void" });
             }
 
             if (!api.category) {
@@ -79,7 +79,7 @@ export class ApiResovler {
      * @return 返回已更新的文件。
      */
     private upgradeV1ToV2(file: ApiFile) {
-        if (parseInt(file.version) || 0 < 2) {
+        if ((parseInt(file.version) || 0) < 2) {
             file.version = "2";
             for (const key in file.types) {
                 const type = file.types[key];
@@ -92,8 +92,6 @@ export class ApiResovler {
                     delete (type as any).native;
                     if (type.type as any == "integer") {
                         type.type = "number";
-                    } else if (type.type as any == "date") {
-                        type.type = "string";
                     }
                 }
                 if ((type as any).fields) {
@@ -156,7 +154,7 @@ export class ApiResovler {
      */
     getType(name: string) {
         if (!name) {
-            name = "any";
+            name = "object";
         }
         let type = this.file.types[name] as ResolvedType;
         if (!type) {
@@ -208,10 +206,10 @@ export class ApiResovler {
                         };
                     }
                 } else {
-                    type.type = "any";
+                    type.type = "object";
                 }
             } else {
-                type.type = ["number", "string", "boolean"].indexOf(name) >= 0 ? name as NativeType : "any";
+                type.type = ["string", "number", "boolean", "integer", "date", "void"].indexOf(name) >= 0 ? name as NativeType : "object";
             }
         }
         return type;
@@ -279,6 +277,11 @@ export class ApiResovler {
                 if (typeof input !== "string") {
                     input = String(input);
                 }
+            } else if (type.type === "integer") {
+                input = typeof input === "number" ? Math.round(input) : parseInt(input);
+                if (isNaN(input)) {
+                    input = undefined;
+                }
             } else if (type.type === "number") {
                 if (typeof input !== "number") {
                     input = parseFloat(input);
@@ -288,6 +291,12 @@ export class ApiResovler {
                 }
             } else if (type.type === "boolean") {
                 input = !!input;
+            } else if (type.type === "date") {
+                if (!+new Date(input)) {
+                    input = undefined;
+                }
+            } else if (type.type === "void") {
+                input = undefined;
             } else if (!type.type) {
                 if (type.resolvedUnderlyingArray) {
                     if (!Array.isArray(input)) {
@@ -328,6 +337,7 @@ export class ApiResovler {
             }
             switch (type.type) {
                 case "number":
+                case "integer":
                     if (value.min != undefined) {
                         return value.min;
                     }
@@ -345,8 +355,12 @@ export class ApiResovler {
                     return `${prefix}`;
                 case "boolean":
                     return caseType % 2 === 0;
+                case "date":
+                    return `2010/01/0${caseType % 9 + 1} 00:00:0${caseType % 10}`;
+                case "void":
+                    return undefined;
                 default:
-                    return null;
+                    return {};
             }
         }
 
@@ -356,7 +370,7 @@ export class ApiResovler {
                 return input;
             }
             const properties = this.getAllProperties(type);
-            const enumKeys = Object.keys(properties);
+            const enumKeys = Object.keys(properties); debugger
             return (properties[enumKeys[caseType % enumKeys.length]] || { default: null }).default;
         }
 

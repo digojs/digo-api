@@ -155,7 +155,7 @@ function generateMocks(resolver: ApiResovler, mockDatas: { [key: string]: any; }
         const api = apis[key];
         const path = digo.resolvePath(options.mock, toSafePath(api.name) + ".json");
         const response = api.responses[0];
-        if (response.type != "any") {
+        if (response.type != "void") {
             const mock = mockDatas[api.name] = resolver.getMock(response, undefined, options.merge === false ? undefined : parseJSON(digo.bufferToString(digo.readFileIf(path))), options.maxDepth, options.mockPrefix);
 
             writeFile(path, JSON.stringify(mock, undefined, 4));
@@ -476,14 +476,14 @@ function generateDoc(resolver: ApiResovler, mockDatas: { [key: string]: any; }, 
         data.body += `<table class="api-table">
                         <tr>
                             <th>Field</th>
-                            <th>Type</th>
+                            <th>${type.memberType === "enum" ? "Value" : "Type"}</th>
                             <th>Summary</th>
                         </tr>`;
         for (const key in type.properties) {
             const property = type.properties[key];
             data.body += `<tr>
                             <td><code>${digo.encodeHTML(property.name)}</code>${property.optional ? "" : `<span class="api-required">*</span>`}</td>
-                            <td><code>${typeToLink(resolver, property.type)}</code></td>
+                            <td><code>${type.memberType === "enum" ? property.default : typeToLink(resolver, property.type)}</code></td>
                             <td>${digo.encodeHTML(property.summary || "")}</td>
                         </tr>`;
         }
@@ -505,21 +505,6 @@ function getLabel(method: string, reverse?: boolean) {
     const opt = { "GET": "success", "POST": "warning", "PUT": "info", "class": "info", "enum": "success" };
     return `<label class="api-label api-label-${opt[method] || "error"}${reverse ? " api-label-reverse" : ""}">${method.toUpperCase()}</label>`;
 }
-
-// function createCode(resolver: ApiResovler, properties: ResolvedType["properties"] | Api["parameters"], mock: any, rootType: ResolvedType) {
-//     const lines: [number, string, string, string, string, string][] = [];
-
-//     function addLine(obj, indent: number, type: ResolvedType, comment: string) {
-//         if (typeof obj === "object") {
-//             lines.push([indent, "{", "", "", type && type.name, comment]);
-//             for (const key in obj) {
-//                 const prop = type && resolver.getProperty(type, key);
-//                 addLine(obj[key], indent + 1, prop && resolver.getType(prop.type), prop && prop.summary);
-//             }
-//             lines.push([indent, "}", "", "", ""]);
-//         }
-//     }
-// }
 
 function createCode(resolver: ApiResovler, data: any, type: ResolvedType, comment?: string, wrap = 30) {
     const parts: { type: string, data?: any }[] = [];
@@ -548,6 +533,16 @@ function createCode(resolver: ApiResovler, data: any, type: ResolvedType, commen
             parts.push({ type: "keyword", data: "null" }, { type: "comment", data: comment });
         } else if (type.type) {
             parts.push({ type: typeof data, data: JSON.stringify(data) }, { type: "comment", data: comment });
+        } else if (type.memberType === "enum") {
+            let enumKeys = "";
+            const properties = resolver.getAllProperties(type);
+            for (const key in properties) {
+                if (enumKeys) {
+                    enumKeys += "    ";
+                }
+                enumKeys += `${properties[key].default}:${key} ${properties[key].summary || ""}`;
+            }
+            parts.push({ type: typeof data, data: JSON.stringify(data) }, { type: "comment", data: (comment || "") + enumKeys });
         } else if (type.resolvedUnderlyingArray) {
             parts.push({ type: "punction", data: "[" });
             addPart(data && data[0], resolver.getType(type.resolvedUnderlyingArray), indent, comment);

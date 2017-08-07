@@ -165,10 +165,6 @@ export interface ValueInfo {
      */
     type?: string;
     /**
-     * 内置验证字段。
-     */
-    validate?: string;
-    /**
      * 是否可选。
      */
     optional?: boolean;
@@ -212,4 +208,4 @@ export declare type Version = string;
 /**
  * 表示内置类型。
  */
-export declare type NativeType = "string" | "number" | "boolean" | "any";
+export declare type NativeType = "string" | "number" | "boolean" | "integer" | "date" | "object" | "void";
