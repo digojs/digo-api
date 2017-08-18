@@ -4,7 +4,7 @@ import { ApiResovler, ResolvedType } from "./resolvor";
 
 /**
  * 生成接口文档。
- * @param apiFile 要生成的接口数据。 
+ * @param apiFile 要生成的接口数据。
  * @param options 生成的选项。
  * @param writeFile 写入文件的回调函数。
  */
@@ -418,7 +418,7 @@ function generateDoc(resolver: ApiResovler, mockDatas: { [key: string]: any; }, 
             for (const key in api.parameters) {
                 const parameter = api.parameters[key];
                 hasParams = true;
-                p[parameter.name] = resolver.getMock(parameter, parameter.name, undefined, options.maxDepth, options.mockPrefix);
+                p[parameter.name] = resolver.getMock(parameter, parameter.name, parameter.name, options.maxDepth, options.mockPrefix);
             }
             if (hasParams) {
                 data.body += `<h4>Request</h4>`;
@@ -616,7 +616,7 @@ function typeToLink(resolver: ApiResovler, name: string) {
         return typeToLink(resolver, type.resolvedUnderlyingArray) + "{}";
     }
     if (type.resolvedUnderlyingGeneric) {
-        return typeToLink(resolver, type.resolvedUnderlyingGeneric) + "<" + type.resolvedTypeArguments.map(x => typeToLink(resolver, x)).join(", ") + ">";
+        return typeToLink(resolver, type.resolvedUnderlyingGeneric) + "&lt;" + type.resolvedTypeArguments.map(x => typeToLink(resolver, x)).join(", ") + "&gt;";
     }
     if (type.resolvedTypeParameters) {
         return `<a href="#${digo.encodeHTML(type.name)}">${digo.encodeHTML(type.name.replace(/<.*>/, ""))}</a>`;

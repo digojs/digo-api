@@ -437,7 +437,7 @@ export class ApiResovler {
      */
     mockData(type: ResolvedType, value: ValueInfo, name: string, prefix: string, caseType: number, depth: number) {
         if (name) {
-            const keyName = name.replace(/^.*([A-Z])/, (all, char: string) => char.toLowerCase());
+            const keyName = name.replace(/^.*_/, "").replace(/^.*([A-Z])/, (all, char: string) => char.toLowerCase());
             if (type.type === "number") {
                 switch (keyName) {
                     case "id":
@@ -482,6 +482,8 @@ export class ApiResovler {
                     case "phone":
                         return (1810000000 + caseType).toString();
                     case "password":
+                    case "psd":
+                    case "pwd":
                         return "000000";
                     case "idcard":
                         return [`211200199907105612`, `130581200609164920`, `31010419820930652X`][caseType % 3];
