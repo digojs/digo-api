@@ -183,8 +183,8 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             let name = exportedTypes[type];
             if (!name) {
                 const resolvedType = resolver.getType(type);
-                if (resolvedType.type) {
-                    return exportedTypes[type] = resolvedType.type;
+                if (resolvedType.alias) {
+                    return exportedTypes[type] = ({ "integer": "number", "object": "any", "date": "string" })[resolvedType.alias] || resolvedType.alias;
                 }
                 if (resolvedType.resolvedUnderlyingArray) {
                     return exportedTypes[type] = `${addExportType(resolvedType.resolvedUnderlyingArray, typeParameters)}[]`;
@@ -367,7 +367,7 @@ function isIdentifier(name: string) {
         "default", "if", "throw", "delete",
         "in", "try",
         "class", "enum", "extends", "super",
-        "const", "export", "import"].indexOf(name) < 0;
+        "const", "export", "import", "null", "undefined"].indexOf(name) < 0;
 }
 
 /**
@@ -465,7 +465,7 @@ function generateDoc(resolver: ApiResovler, mockDatas: { [key: string]: any; }, 
     const types = resolver.getTypes();
     for (const key in types) {
         const type = types[key];
-        if (type.type || type.resolvedUnderlyingGeneric || type.resolvedUnderlyingArray || type.resolvedUnderlyingObject) {
+        if (type.alias || type.resolvedUnderlyingGeneric || type.resolvedUnderlyingArray || type.resolvedUnderlyingObject) {
             continue;
         }
 
@@ -531,7 +531,7 @@ function createCode(resolver: ApiResovler, data: any, type: ResolvedType, commen
     function addPart(data: any, type: ResolvedType, indent: number, comment?: string) {
         if (data == null) {
             parts.push({ type: "keyword", data: "null" }, { type: "comment", data: comment });
-        } else if (type.type) {
+        } else if (type.alias) {
             parts.push({ type: typeof data, data: JSON.stringify(data) }, { type: "comment", data: comment });
         } else if (type.memberType === "enum") {
             let enumKeys = "";
@@ -606,8 +606,8 @@ function createCode(resolver: ApiResovler, data: any, type: ResolvedType, commen
 
 function typeToLink(resolver: ApiResovler, name: string) {
     const type = resolver.getType(name);
-    if (type.type) {
-        return type.type;
+    if (type.alias) {
+        return type.alias;
     }
     if (type.resolvedUnderlyingArray) {
         return typeToLink(resolver, type.resolvedUnderlyingArray) + "[]";

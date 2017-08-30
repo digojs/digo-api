@@ -19,6 +19,11 @@ export class ApiResovler {
         for (const key in file.types) {
             const type = file.types[key] as ResolvedType;
             type.name = type.name || key;
+            
+            // 兼容历史类型。
+            if ((type as any).type) {
+                type.alias = (type as any).type;
+            }
 
             // 统一泛型定义：将 foo.A<T,K> -> foo.A<,>
             const match = /^(.*)<([^<>\.]*)>$/.exec(key);
@@ -88,10 +93,10 @@ export class ApiResovler {
                     delete (type as any).type;
                 }
                 if ((type as any).native) {
-                    type.type = (type as any).native;
+                    type.alias = (type as any).native;
                     delete (type as any).native;
-                    if (type.type as any == "integer") {
-                        type.type = "number";
+                    if (type.alias as any == "integer") {
+                        type.alias = "number";
                     }
                 }
                 if ((type as any).fields) {
@@ -206,10 +211,10 @@ export class ApiResovler {
                         };
                     }
                 } else {
-                    type.type = "object";
+                    type.alias = "object";
                 }
             } else {
-                type.type = ["string", "number", "boolean", "integer", "date", "void"].indexOf(name) >= 0 ? name as NativeType : "object";
+                type.alias = ["string", "number", "boolean", "integer", "date", "void"].indexOf(name) >= 0 ? name as NativeType : "object";
             }
         }
         return type;
@@ -273,31 +278,31 @@ export class ApiResovler {
 
         // 验证输入数据。
         if (input != undefined) {
-            if (type.type === "string") {
+            if (type.alias === "string") {
                 if (typeof input !== "string") {
                     input = String(input);
                 }
-            } else if (type.type === "integer") {
+            } else if (type.alias === "integer") {
                 input = typeof input === "number" ? Math.round(input) : parseInt(input);
                 if (isNaN(input)) {
                     input = undefined;
                 }
-            } else if (type.type === "number") {
+            } else if (type.alias === "number") {
                 if (typeof input !== "number") {
                     input = parseFloat(input);
                     if (isNaN(input)) {
                         input = undefined;
                     }
                 }
-            } else if (type.type === "boolean") {
+            } else if (type.alias === "boolean") {
                 input = !!input;
-            } else if (type.type === "date") {
+            } else if (type.alias === "date") {
                 if (!+new Date(input)) {
                     input = undefined;
                 }
-            } else if (type.type === "void") {
+            } else if (type.alias === "void") {
                 input = undefined;
-            } else if (!type.type) {
+            } else if (!type.alias) {
                 if (type.resolvedUnderlyingArray) {
                     if (!Array.isArray(input)) {
                         input = undefined;
@@ -331,11 +336,11 @@ export class ApiResovler {
         }
 
         // 内置类型。
-        if (type.type) {
+        if (type.alias) {
             if (input != undefined) {
                 return input;
             }
-            switch (type.type) {
+            switch (type.alias) {
                 case "number":
                 case "integer":
                     if (value.min != undefined) {
@@ -438,7 +443,7 @@ export class ApiResovler {
     mockData(type: ResolvedType, value: ValueInfo, name: string, prefix: string, caseType: number, depth: number) {
         if (name) {
             const keyName = name.replace(/^.*_/, "").replace(/^.*([A-Z])/, (all, char: string) => char.toLowerCase());
-            if (type.type === "number") {
+            if (type.alias === "number") {
                 switch (keyName) {
                     case "id":
                         return 100 + caseType;
@@ -457,7 +462,7 @@ export class ApiResovler {
                     case "week":
                         return caseType % 7;
                 }
-            } else if (type.type === "string") {
+            } else if (type.alias === "string") {
                 switch (keyName) {
                     case "date":
                         return `2010/01/0${caseType % 10}`;

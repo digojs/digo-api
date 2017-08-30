@@ -124,7 +124,7 @@ export interface Type extends NameInfo {
     /**
      * 当前类型映射的内置类型。
      */
-    type?: NativeType;
+    alias?: NativeType;
 
     /**
      * 继承的类型。
