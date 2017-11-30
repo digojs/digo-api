@@ -19,7 +19,7 @@ export class ApiResovler {
         for (const key in file.types) {
             const type = file.types[key] as ResolvedType;
             type.name = type.name || key;
-            
+
             // 兼容历史类型。
             if ((type as any).type) {
                 type.alias = (type as any).type;
@@ -149,7 +149,7 @@ export class ApiResovler {
      * @return 返回存储键。
      */
     private getGenericKey(name: string, typeParameterCount: number) {
-        return name + "<" + ",".repeat(typeParameterCount - 1) + ">";
+        return name + "<" + (typeParameterCount >= 1 ? ",".repeat(typeParameterCount - 1) : "") + ">";
     }
 
     /**
