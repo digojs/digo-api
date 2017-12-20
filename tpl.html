@@ -381,6 +381,7 @@
 				send._reset();
 				return;
 			}
+			contentType = contentType || "application/x-www-form-urlencoded";
 			var req = send.previousElementSibling && send.previousElementSibling.firstElementChild;
 			var res = send.parentNode.lastElementChild;
 			if (res === send) {
@@ -452,7 +453,7 @@
 			};
 			xhr.withCredentials = true;
 			xhr.open(options.type, options.url, true);
-			if (options.contentType) {
+			if (options.type !== "GET" && options.contentType) {
 				xhr.setRequestHeader("Content-Type", options.contentType);
 			}
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
