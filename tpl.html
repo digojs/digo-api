@@ -381,7 +381,7 @@
 				send._reset();
 				return;
 			}
-			contentType = contentType || "application/x-www-form-urlencoded";
+			contentType = contentType || "application/json";
 			var req = send.previousElementSibling && send.previousElementSibling.firstElementChild;
 			var res = send.parentNode.lastElementChild;
 			if (res === send) {
@@ -394,7 +394,7 @@
 				res = res.firstElementChild;
 			}
 			var data = req ? req.textContent.replace(/\/\/.*$/gm, "") : null;
-			if (contentType === "application/json") {
+			if (data != null && contentType === "application/json") {
 				try {
 					data = eval("(" + data + ")");
 				} catch (e) {
