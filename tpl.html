@@ -44,18 +44,12 @@
 		h2 {
 			font-size: 1.5rem;
 			border-bottom: 1px solid rgba(59, 65, 81, .3);
-			cursor: pointer;
-		}
-
-		h2:hover {
-			background: #f0f0f0;
 		}
 
 		h3 {
 			background: #f9fafc;
 			border-radius: 5px 5px 0 0;
 			font-size: 1.2rem;
-			cursor: pointer;
 		}
 
 		h4, h5, h6 {
@@ -296,6 +290,18 @@
 			background-color: #50585d;
 		}
 
+		#api_filter {
+			width: 100%;
+			background: none;
+			border: 0;
+			padding: .5rem 1rem;
+			color: #fff;
+		}
+
+		#api_filter::placeholder {
+			font-style: italic;
+		}
+
 		#api_main {
 			margin-left: 25%;
 		}
@@ -337,6 +343,7 @@
 
 <body>
 	<aside id="api_sidebar">
+		<input type="search" id="api_filter" placeholder="搜索..." oninput="setFilter(this.value)">
 		<ul>
 			$side
 		</ul>
@@ -367,6 +374,30 @@
 			header.nextElementSibling.style.display = header.nextElementSibling.style.display ? "" : "none";
 		}
 
+		function setFilter(value) {
+			var items = document.querySelectorAll('#api_sidebar li')
+			for (var i = 0; i < items.length; i++) {
+				var item = items[i]
+				if (item.firstChild.nextSibling) {
+					continue
+				}
+				item.style.display = ''
+				if (item.firstChild.title.indexOf(value) < 0) {
+					item.style.display = 'none'
+				}
+			}
+			for (var i = 0; i < items.length; i++) {
+				var item = items[i]
+				if (!item.firstChild.nextSibling) {
+					continue
+				}
+				item.style.display = ''
+				if (!item.firstChild.nextSibling.offsetHeight) {
+					item.style.display = 'none'
+				}
+			}
+		}
+		
 		function send(send, url, method, contentType) {
 			if (!send._reset) {
 				send._reset = function() {
