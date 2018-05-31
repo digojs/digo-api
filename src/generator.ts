@@ -234,7 +234,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
                     if (resolvedType.memberType === "enum") {
                         types += `    ${propName}${property.default != undefined ? " = " + property.default : ""},\n`;
                     } else {
-                        types += `    ${propName}: ${getType(property, resolvedType.resolvedTypeParameters)};\n`;
+                        types += `    ${propName}${property.optional ? "?" : ""}: ${getType(property, resolvedType.resolvedTypeParameters)};\n`;
                     }
                 }
                 types += `\n}\n`;
@@ -279,7 +279,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             }
             const returnType = resolver.getType(api.responses[0].type);
             const returnTypeExport = addExportType(api.responses[0].type);
-            apis += `success?: (data: ${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, error?: (message: ${options.messageProperty && resolver.getProperty(returnType, options.messageProperty) ? `${returnTypeExport}["${options.messageProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, options?: any) {\n`;
+            apis += `success?: (data: ${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, error?: (message: ${options.messageProperty && resolver.getProperty(returnType, options.messageProperty) ? `${returnTypeExport}["${options.messageProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, options?: any): Promise<${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}> {\n`;
             apis += `    return ajax({\n`;
             apis += `        url: ${JSON.stringify(api.name)},\n`;
             if (api.method) {
@@ -308,7 +308,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             apis += `        success: success,\n`;
             apis += `        error: error,\n`;
             apis += `        ...options\n`;
-            apis += `    });\n`;
+            apis += `    }) as any;\n`;
             apis += `}\n`;
             apis += `\n`;
         }

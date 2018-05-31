@@ -14,14 +14,14 @@ export declare class ApiResovler {
      * @param file 要更新的文件。
      * @return 返回已更新的文件。
      */
-    private upgradeV1ToV2(file);
+    private upgradeV1ToV2;
     /**
      * 获取泛型定义的存储键。
      * @param name 泛型名称部分。
      * @param typeParameterCount 泛型形参个数。
      * @return 返回存储键。
      */
-    private getGenericKey(name, typeParameterCount);
+    private getGenericKey;
     /**
      * 获取指定的类型。
      * @param name 要获取的类型全名。
@@ -35,7 +35,7 @@ export declare class ApiResovler {
      * @param typeArguments 泛型实参。
      * @return 返回替换后的类型名。
      */
-    private inflateTypes(type, typeParameters, typeArguments);
+    private inflateTypes;
     /**
      * 获取指定类型及基类型的属性。
      * @param type 要获取的类型。
