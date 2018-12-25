@@ -47,7 +47,10 @@ export class ApiResovler {
                 if (!api.method) api.method = match[1];
                 if (!api.name) api.name = match[2];
             }
-            api.name = api.name || key;
+            api.url = api.name = api.name || key;
+            if (/\{.*\}/.test(api.name)) {
+                api.name = api.name.split("/").filter(x => !/\{.*\}/.test(x)).join("/")
+            }
 
             let optional = false;
             for (const key2 in api.parameters) {

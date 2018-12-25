@@ -1,6 +1,6 @@
 {
     "name": "digo-api",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "repository": "https://github.com/digojs/digo-api",
     "description": "digo 插件：生成 API 文档",
     "keywords": [

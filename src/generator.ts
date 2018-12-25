@@ -281,7 +281,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
             const returnTypeExport = addExportType(api.responses[0].type);
             apis += `success?: (data: ${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, error?: (message: ${options.messageProperty && resolver.getProperty(returnType, options.messageProperty) ? `${returnTypeExport}["${options.messageProperty}"]` : "any"}, response: ${returnTypeExport}, xhr: any) => void, options?: any): Promise<${options.dataProperty && resolver.getProperty(returnType, options.dataProperty) ? `${returnTypeExport}["${options.dataProperty}"]` : "any"}> {\n`;
             apis += `    return ajax({\n`;
-            apis += `        url: ${JSON.stringify(api.name)},\n`;
+            apis += `        url: \`${JSON.stringify(api.url).slice(1, -1).replace(/\`/g, "\\`").replace(/{[^}]+}/g, all => `$${all}`)}\`,\n`;
             if (api.method) {
                 apis += `        type: ${JSON.stringify(api.method)},\n`;
             }
@@ -341,7 +341,7 @@ function generateTS(resolver: ApiResovler, mockDatas: { [key: string]: any; }, o
  * @return 返回最终导出名称。
  */
 function addExportName(exportNames: {}, name: string) {
-    name = name.replace(/^.*[\.\/]/, "").replace(/[\[\]\,<>{}]/g, "");
+    name = name.replace(/^.*[\.\/]/, "").replace(/[\[\]\,<>{}\-]/g, "");
     if (!isIdentifier(name) || exportNames[name]) {
         let index = 1;
         while (exportNames[name + "_" + index]) {
@@ -381,7 +381,8 @@ function isPropName(name: string) {
 }
 
 function toSafePath(name: string) {
-    return name.replace(/^\//, "").replace(/[{}<>;:+\s]|[?#].*$/g, "");
+    name = name.replace(/^\//, "").replace(/[<>;:+\s]|[?#].*$/g, "");
+    return name
 }
 
 function removeComment(value) {

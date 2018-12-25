@@ -51,6 +51,11 @@ export interface Api extends NameInfo {
     category?: string;
 
     /**
+     * 请求地址。
+     */
+    url?: string;
+
+    /**
      * 请求谓词(HTTP Method)。如 "GET"。
      */
     method?: string;
